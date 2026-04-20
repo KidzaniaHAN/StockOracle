@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>이규영의 주식 차트 — 실시간 주식 분석</title>
+<title>황금 차트 — 실시간 주식 분석기</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Noto+Serif+KR:wght@300;400;500&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
@@ -379,7 +379,7 @@ h1 em{font-style:italic;color:var(--g2);}
       </div>
     </div>
  
-    <div class="disc">※ Yahoo Finance 실시간 데이터 (최대 20분 지연) + AI 분석 기반<br>본 분석은 참고용이며, 투자 결과에 대한 책임은 본인에게 있습니다.</div>
+    <div class="disc">※ Yahoo Finance 실시간 데이터 (최대 20분 지연) + Claude AI 분석 기반<br>본 분석은 참고용이며 실제 투자 조언이 아닙니다. 투자 결과에 대한 책임은 본인에게 있습니다.</div>
   </div>
 </div>
  
@@ -387,79 +387,36 @@ h1 em{font-style:italic;color:var(--g2);}
 const AKEY='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';
 let chartInst=null, stockData=null, analysisResult=null, selectedTradeType=null, selectedTicker='';
  
-// ── 한국 주식 DB ──
-const KR_STOCKS=[
-  {name:'삼성전자',code:'005930.KS',alias:['삼전']},
-  {name:'SK하이닉스',code:'000660.KS',alias:['하이닉스','SK하닉']},
-  {name:'LG에너지솔루션',code:'373220.KS',alias:['엘지에너지','LGES']},
-  {name:'삼성바이오로직스',code:'207940.KS',alias:['삼바']},
-  {name:'현대자동차',code:'005380.KS',alias:['현대차','현자']},
-  {name:'기아',code:'000270.KS',alias:['기아차']},
-  {name:'POSCO홀딩스',code:'005490.KS',alias:['포스코']},
-  {name:'삼성SDI',code:'006400.KS',alias:[]},
-  {name:'LG화학',code:'051910.KS',alias:['엘지화학']},
-  {name:'카카오',code:'035720.KS',alias:[]},
-  {name:'카카오뱅크',code:'323410.KS',alias:[]},
-  {name:'네이버',code:'035420.KS',alias:['NAVER']},
-  {name:'셀트리온',code:'068270.KS',alias:[]},
-  {name:'삼성물산',code:'028260.KS',alias:[]},
-  {name:'현대모비스',code:'012330.KS',alias:[]},
-  {name:'KB금융',code:'105560.KS',alias:[]},
-  {name:'신한지주',code:'055550.KS',alias:[]},
-  {name:'하나금융지주',code:'086790.KS',alias:['하나금융']},
-  {name:'우리금융지주',code:'316140.KS',alias:['우리금융']},
-  {name:'삼성생명',code:'032830.KS',alias:[]},
-  {name:'SK텔레콤',code:'017670.KS',alias:['SKT']},
-  {name:'KT',code:'030200.KS',alias:[]},
-  {name:'LG전자',code:'066570.KS',alias:['엘지전자']},
-  {name:'롯데케미칼',code:'011170.KS',alias:['롯데화학']},
-  {name:'한국전력',code:'015760.KS',alias:['한전']},
-  {name:'두산에너빌리티',code:'034020.KS',alias:['두산중공업']},
-  {name:'HMM',code:'011200.KS',alias:['현대상선']},
-  {name:'SK이노베이션',code:'096770.KS',alias:[]},
-  {name:'LG디스플레이',code:'034220.KS',alias:['엘지디스플레이']},
-  {name:'삼성전기',code:'009150.KS',alias:[]},
-  {name:'크래프톤',code:'259960.KS',alias:[]},
-  {name:'카카오게임즈',code:'293490.KQ',alias:[]},
-  {name:'펄어비스',code:'263750.KQ',alias:[]},
-  {name:'엔씨소프트',code:'036570.KS',alias:['NC']},
-  {name:'넷마블',code:'251270.KS',alias:[]},
-  {name:'CJ제일제당',code:'097950.KS',alias:[]},
-  {name:'아모레퍼시픽',code:'090430.KS',alias:['아모레']},
-  {name:'LG생활건강',code:'051900.KS',alias:['LG생건']},
-  {name:'오리온',code:'271560.KS',alias:[]},
-  {name:'농심',code:'004370.KS',alias:[]},
-  {name:'삼성重工業',code:'010140.KS',alias:['삼성중공업']},
-  {name:'한화오션',code:'042660.KS',alias:['대우조선']},
-  {name:'현대重工業',code:'329180.KS',alias:['현대중공업']},
-  {name:'에코프로비엠',code:'247540.KQ',alias:['에코프로B']},
-  {name:'에코프로',code:'086520.KQ',alias:[]},
-  {name:'포스코퓨처엠',code:'003670.KS',alias:['포스코케미칼']},
-  {name:'금양',code:'001570.KS',alias:[]},
-  {name:'HD현대일렉트릭',code:'267260.KS',alias:[]},
-  {name:'LS ELECTRIC',code:'010120.KS',alias:['LS일렉트릭']},
-  {name:'효성중공업',code:'298040.KS',alias:[]},
-];
+// ── Yahoo Finance 실시간 종목 검색 ──
+let searchTimer=null;
  
-function searchStock(q){
-  if(!q||q.length<1)return [];
-  const lq=q.toLowerCase().replace(/\s/g,'');
-  return KR_STOCKS.filter(s=>{
-    const n=s.name.toLowerCase().replace(/\s/g,'');
-    const c=s.code.toLowerCase();
-    const match=n.includes(lq)||c.includes(lq)||s.alias.some(a=>a.toLowerCase().replace(/\s/g,'').includes(lq));
-    return match;
-  }).slice(0,8);
+async function liveSearch(q){
+  if(!q||q.trim().length<1)return [];
+  const url=`https://query2.finance.yahoo.com/v1/finance/search?q=${encodeURIComponent(q)}&lang=ko-KR&region=KR&quotesCount=10&newsCount=0&enableFuzzyQuery=true&enableCb=false`;
+  try{
+    const data=await proxyFetch(url);
+    return (data.quotes||[]).filter(r=>r.quoteType==='EQUITY'&&r.symbol).map(r=>({
+      name:r.longname||r.shortname||r.symbol,
+      code:r.symbol,
+      exchange:r.exchange||''
+    })).slice(0,8);
+  }catch(e){return [];}
 }
  
 function onSearchInput(val){
   const ac=document.getElementById('autocomplete');
-  // 영문 티커거나 코드형이면 자동완성 숨김
-  if(/^[A-Za-z0-9.]+$/.test(val.trim())){ac.style.display='none';return;}
-  const results=searchStock(val.trim());
-  if(!results.length){ac.style.display='none';return;}
-  ac.innerHTML=results.map((s,i)=>`<div class="ac-item" onclick="selectAC('${s.name}','${s.code}')" data-idx="${i}"><span class="ac-name">${s.name}</span><span class="ac-code">${s.code}</span></div>`).join('');
+  if(!val||val.trim().length<1){ac.style.display='none';return;}
+  ac.innerHTML='<div class="ac-item" style="color:var(--ink3);font-size:12px;">검색 중<span class="dots"><span>.</span><span>.</span><span>.</span></span></div>';
   ac.style.display='block';
+  clearTimeout(searchTimer);
+  searchTimer=setTimeout(async()=>{
+    const results=await liveSearch(val.trim());
+    if(!results.length){
+      ac.innerHTML='<div class="ac-item" style="color:var(--ink3);font-size:12px;">검색 결과가 없습니다</div>';
+      return;
+    }
+    ac.innerHTML=results.map((s,i)=>`<div class="ac-item" onclick="selectAC('${s.name.replace(/'/g,"\'")}','${s.code}')" data-idx="${i}"><span class="ac-name">${s.name}</span><span class="ac-code">${s.code}</span></div>`).join('');
+  },400);
 }
  
 let acIdx=-1;
