@@ -21,7 +21,7 @@ header{text-align:center;margin-bottom:36px;}
 h1{font-family:'Cormorant Garamond',serif;font-size:42px;font-weight:300;color:var(--g1);letter-spacing:0.07em;line-height:1.1;}
 h1 em{font-style:italic;color:var(--g2);}
 .sub{margin-top:8px;font-size:11px;letter-spacing:0.22em;color:var(--ink3);text-transform:uppercase;}
-.live-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(26,92,42,0.12);border:1px solid rgba(26,92,42,0.3);border-radius:20px;padding:3px 12px;font-size:11px;color:var(--buy);margin-top:8px;letter-spacing:0.1em;}
+.live-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(26,92,42,0.12);border:1px solid rgba(26,92,42,0.3);border-radius:20px;padding:3px 12px;font-size:11px;color:var(--buy);margin-top:8px;}
 .live-dot{width:6px;height:6px;border-radius:50%;background:#4CAF70;animation:pulse 1.5s infinite;}
 @keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
 .h-rule{margin:18px auto 0;width:75%;border:none;border-top:1px solid var(--bd-gold);position:relative;}
@@ -35,12 +35,21 @@ h1 em{font-style:italic;color:var(--g2);}
 .s-label{font-size:10px;letter-spacing:0.25em;color:var(--ink3);text-transform:uppercase;display:block;margin-bottom:8px;}
 .s-hint{font-size:12px;color:var(--ink3);margin-bottom:14px;line-height:1.7;background:rgba(212,175,55,0.08);padding:10px 14px;border-radius:3px;border-left:3px solid var(--g3);}
 .s-hint code{background:rgba(212,175,55,0.2);padding:1px 6px;border-radius:2px;font-family:monospace;font-size:12px;}
-.s-row{display:flex;gap:10px;margin-bottom:12px;}
+.s-row{display:flex;gap:10px;margin-bottom:12px;position:relative;}
 .s-wrap{flex:1;position:relative;}
 .s-wrap::before{content:'⊙';position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--g3);font-size:14px;pointer-events:none;}
 .s-inp{width:100%;height:48px;padding:0 14px 0 36px;background:rgba(253,248,237,0.9);border:1px solid var(--bd-bright);border-radius:3px;font-family:'Noto Serif KR',serif;font-size:14px;color:var(--ink);outline:none;transition:border-color .2s,box-shadow .2s;}
 .s-inp:focus{border-color:var(--g2);box-shadow:0 0 0 3px rgba(212,175,55,0.15);}
 .s-inp::placeholder{color:var(--ink3);opacity:0.6;}
+ 
+/* 자동완성 드롭다운 */
+.autocomplete{position:absolute;top:52px;left:0;right:0;background:#FDF8ED;border:1px solid var(--bd-bright);border-radius:3px;z-index:100;box-shadow:0 4px 16px rgba(180,134,11,0.15);display:none;max-height:220px;overflow-y:auto;}
+.ac-item{padding:10px 16px;cursor:pointer;font-size:13px;color:var(--ink2);border-bottom:1px solid rgba(180,134,11,0.08);display:flex;justify-content:space-between;align-items:center;}
+.ac-item:last-child{border-bottom:none;}
+.ac-item:hover{background:rgba(212,175,55,0.12);}
+.ac-name{font-weight:500;}
+.ac-code{font-size:11px;color:var(--ink3);font-family:monospace;}
+ 
 .btn-gold{height:48px;padding:0 24px;background:linear-gradient(135deg,var(--g2) 0%,var(--g3) 50%,var(--g2) 100%);color:var(--ink);border:1px solid var(--g1);border-radius:3px;font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:600;letter-spacing:0.1em;cursor:pointer;white-space:nowrap;box-shadow:0 2px 8px rgba(180,134,11,0.28),inset 0 1px 0 rgba(255,220,80,0.4);transition:all .2s;}
 .btn-gold:hover{background:linear-gradient(135deg,var(--g3) 0%,#FFE066 50%,var(--g3) 100%);transform:translateY(-1px);}
 .btn-gold:disabled{opacity:0.45;cursor:not-allowed;transform:none;}
@@ -112,7 +121,6 @@ h1 em{font-style:italic;color:var(--g2);}
 .news-item{background:rgba(253,248,237,0.7);border:1px solid var(--bd-gold);border-radius:4px;padding:14px 18px;display:flex;gap:14px;align-items:flex-start;}
 .news-dot{width:6px;min-width:6px;height:6px;border-radius:50%;margin-top:5px;}
 .news-dot.pos{background:#4CAF70;}.news-dot.neg{background:#E05050;}.news-dot.neu{background:#B8860B;}
-.news-content{flex:1;}
 .news-title{font-size:13px;color:var(--ink2);margin-bottom:4px;line-height:1.5;}
 .news-meta{font-size:10px;color:var(--ink3);}
 .news-impact{font-size:10px;padding:1px 7px;border-radius:2px;display:inline-block;margin-left:6px;}
@@ -123,7 +131,7 @@ h1 em{font-style:italic;color:var(--g2);}
 .ana-card{background:rgba(253,248,237,0.7);border:1px solid var(--bd-gold);border-radius:4px;padding:22px 26px;margin-bottom:18px;}
 .ana-section{margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid var(--bd-gold);}
 .ana-section:last-child{margin-bottom:0;padding-bottom:0;border-bottom:none;}
-.ana-section-title{font-family:'Cormorant Garamond',serif;font-size:15px;color:var(--g1);letter-spacing:0.1em;margin-bottom:8px;}
+.ana-section-title{font-family:'Cormorant Garamond',serif;font-size:15px;color:var(--g1);margin-bottom:8px;}
 .ana-txt{font-size:13px;line-height:2.1;color:var(--ink2);}
  
 .score-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px;}
@@ -153,66 +161,71 @@ h1 em{font-style:italic;color:var(--g2);}
 .risk-track{height:4px;background:rgba(212,175,55,0.08);border-radius:3px;overflow:hidden;}
 .risk-f{height:100%;border-radius:3px;background:linear-gradient(90deg,#4CAF70,#E0A050,#E05050);transition:width .8s ease;}
  
-/* ── 이규영 계산기 ── */
-.calc-outer{border-radius:4px;overflow:hidden;margin-bottom:18px;}
-.calc-header-buy{background:linear-gradient(135deg,#0F2A18,#1A5C2A);padding:20px 26px;position:relative;}
-.calc-header-hold{background:linear-gradient(135deg,#1A1A0F,#3A3510);padding:20px 26px;position:relative;}
-.calc-header-sell{background:linear-gradient(135deg,#2A0F0F,#5C1A1A);padding:20px 26px;position:relative;}
+/* ── 계산기 ── */
+.calc-outer{border-radius:4px;overflow:hidden;margin-bottom:18px;border:1px solid var(--bd-gold);}
+.calc-hdr-buy{background:linear-gradient(135deg,#0F2A18,#1A5C2A);padding:20px 26px;}
+.calc-hdr-hold{background:linear-gradient(135deg,#1A1A0F,#3A3510);padding:20px 26px;}
+.calc-hdr-sell{background:linear-gradient(135deg,#2A0F0F,#5C1A1A);padding:20px 26px;}
 .calc-author{font-size:10px;letter-spacing:0.25em;color:rgba(212,175,55,0.6);text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:8px;}
 .calc-author::before{content:'';width:20px;height:1px;background:rgba(212,175,55,0.4);}
-.calc-headline{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:300;color:#F4D97A;line-height:1.3;margin-bottom:8px;}
+.calc-headline{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:300;color:#F4D97A;line-height:1.3;margin-bottom:6px;}
 .calc-sub{font-size:12px;color:rgba(212,175,55,0.55);line-height:1.7;}
-.calc-body{background:rgba(253,248,237,0.85);border:1px solid var(--bd-gold);border-top:none;padding:24px 26px;}
+.calc-body{background:rgba(253,248,237,0.9);padding:24px 26px;}
  
-.calc-watch{background:rgba(180,134,11,0.08);border:1px solid var(--bd-gold);border-radius:4px;padding:16px 20px;margin-bottom:20px;}
-.calc-watch-title{font-family:'Cormorant Garamond',serif;font-size:15px;color:var(--g1);margin-bottom:8px;}
-.calc-watch-txt{font-size:13px;color:var(--ink2);line-height:1.9;}
+/* 단타/장타 선택 */
+.trade-type-row{display:flex;gap:10px;margin-bottom:18px;}
+.trade-btn{flex:1;padding:10px;border:1px solid var(--bd-gold);border-radius:3px;background:transparent;font-family:'Noto Serif KR',serif;font-size:13px;color:var(--ink3);cursor:pointer;transition:all .2s;text-align:center;}
+.trade-btn.active-short{border-color:rgba(139,26,26,0.5);background:rgba(139,26,26,0.08);color:var(--sell);font-weight:500;}
+.trade-btn.active-long{border-color:rgba(26,92,42,0.5);background:rgba(26,92,42,0.08);color:var(--buy);font-weight:500;}
+.trade-btn:hover{background:rgba(212,175,55,0.1);}
+.trade-desc{font-size:11px;color:var(--ink3);margin-bottom:16px;padding:8px 12px;background:rgba(212,175,55,0.06);border-radius:3px;line-height:1.7;}
  
-.money-input-row{display:flex;gap:10px;align-items:center;margin-bottom:20px;}
+/* 금액 입력 */
+.money-row{display:flex;gap:10px;align-items:center;margin-bottom:20px;flex-wrap:wrap;}
 .money-label{font-size:13px;color:var(--ink2);white-space:nowrap;font-weight:500;}
-.money-inp{flex:1;height:46px;padding:0 14px;background:rgba(253,248,237,0.9);border:1px solid var(--bd-bright);border-radius:3px;font-family:'Noto Serif KR',serif;font-size:15px;color:var(--ink);outline:none;text-align:right;}
+.money-inp-wrap{flex:1;min-width:180px;position:relative;}
+.money-inp{width:100%;height:46px;padding:0 50px 0 14px;background:rgba(253,248,237,0.9);border:1px solid var(--bd-bright);border-radius:3px;font-family:'Noto Serif KR',serif;font-size:15px;color:var(--ink);outline:none;text-align:right;}
 .money-inp:focus{border-color:var(--g2);box-shadow:0 0 0 3px rgba(212,175,55,0.12);}
-.money-unit{font-size:13px;color:var(--ink3);}
-.btn-calc{height:46px;padding:0 20px;background:linear-gradient(135deg,var(--g2),var(--g3),var(--g2));color:var(--ink);border:1px solid var(--g1);border-radius:3px;font-family:'Cormorant Garamond',serif;font-size:15px;font-weight:600;cursor:pointer;white-space:nowrap;transition:all .2s;}
+.money-unit-inside{position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:13px;color:var(--ink3);pointer-events:none;}
+.btn-calc{height:46px;padding:0 22px;background:linear-gradient(135deg,var(--g2),var(--g3),var(--g2));color:var(--ink);border:1px solid var(--g1);border-radius:3px;font-family:'Cormorant Garamond',serif;font-size:15px;font-weight:600;cursor:pointer;white-space:nowrap;transition:all .2s;}
 .btn-calc:hover{transform:translateY(-1px);}
  
 .divid-plan{display:none;}
 .divid-title{font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--g1);letter-spacing:0.08em;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--bd-gold);}
 .divid-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px;}
 .divid-card{background:white;border:1px solid var(--bd-gold);border-radius:4px;padding:14px 16px;position:relative;}
-.divid-card.first{border-color:rgba(26,92,42,0.4);background:rgba(26,92,42,0.04);}
-.divid-badge{position:absolute;top:-8px;left:12px;background:var(--g2);color:var(--ink);font-size:9px;padding:2px 8px;border-radius:10px;letter-spacing:0.1em;font-weight:600;}
-.divid-label{font-size:9px;letter-spacing:0.15em;color:var(--ink3);text-transform:uppercase;margin-bottom:6px;}
+.divid-card.primary{border-color:rgba(26,92,42,0.4);background:rgba(26,92,42,0.04);}
+.divid-badge{position:absolute;top:-9px;left:12px;font-size:9px;padding:2px 9px;border-radius:10px;letter-spacing:0.08em;font-weight:600;color:var(--ink);}
+.divid-label{font-size:9px;letter-spacing:0.15em;color:var(--ink3);text-transform:uppercase;margin-bottom:5px;}
 .divid-price{font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--ink);margin-bottom:2px;}
 .divid-amount{font-size:13px;color:var(--buy);font-weight:500;}
 .divid-shares{font-size:11px;color:var(--ink3);margin-top:2px;}
  
-.summary-table{width:100%;border-collapse:collapse;margin-bottom:20px;}
+.summary-table{width:100%;border-collapse:collapse;margin-bottom:20px;font-size:13px;}
 .summary-table th{font-size:10px;letter-spacing:0.15em;color:var(--ink3);text-transform:uppercase;text-align:left;padding:8px 12px;background:rgba(212,175,55,0.08);border-bottom:1px solid var(--bd-gold);}
-.summary-table td{font-size:13px;color:var(--ink2);padding:9px 12px;border-bottom:1px solid rgba(180,134,11,0.08);}
+.summary-table td{color:var(--ink2);padding:9px 12px;border-bottom:1px solid rgba(180,134,11,0.08);}
 .summary-table tr:last-child td{border-bottom:none;}
-.summary-table .highlight{font-weight:600;color:var(--ink);}
-.summary-table .pos-val{color:var(--buy);font-weight:600;}
-.summary-table .neg-val{color:var(--sell);font-weight:600;}
+.highlight{font-weight:600;color:var(--ink)!important;}
+.pos-val{color:var(--buy)!important;font-weight:600;}
+.neg-val{color:var(--sell)!important;font-weight:600;}
  
 .scenario-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;}
 .scenario-card{border-radius:4px;padding:14px 16px;}
-.scenario-card.profit{background:rgba(26,92,42,0.08);border:1px solid rgba(26,92,42,0.25);}
-.scenario-card.loss{background:rgba(139,26,26,0.08);border:1px solid rgba(139,26,26,0.2);}
-.scenario-label{font-size:10px;letter-spacing:0.15em;color:var(--ink3);text-transform:uppercase;margin-bottom:8px;}
-.scenario-val{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;}
-.scenario-val.profit-val{color:var(--buy);}
-.scenario-val.loss-val{color:var(--sell);}
-.scenario-desc{font-size:11px;color:var(--ink3);margin-top:4px;}
+.sc-profit{background:rgba(26,92,42,0.08);border:1px solid rgba(26,92,42,0.25);}
+.sc-loss{background:rgba(139,26,26,0.08);border:1px solid rgba(139,26,26,0.2);}
+.scenario-label{font-size:10px;letter-spacing:0.12em;color:var(--ink3);text-transform:uppercase;margin-bottom:8px;}
+.scenario-val{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:300;}
+.sv-profit{color:var(--buy);}.sv-loss{color:var(--sell);}
+.scenario-desc{font-size:11px;color:var(--ink3);margin-top:3px;}
  
-.sell-guide{background:rgba(26,92,42,0.06);border:1px solid rgba(26,92,42,0.2);border-radius:4px;padding:16px 18px;margin-bottom:16px;}
-.sell-guide-title{font-size:12px;letter-spacing:0.1em;color:var(--buy);margin-bottom:10px;font-weight:500;}
+.sell-guide{background:rgba(26,92,42,0.06);border:1px solid rgba(26,92,42,0.2);border-radius:4px;padding:16px 18px;margin-bottom:6px;}
+.sell-guide-title{font-size:12px;color:var(--buy);margin-bottom:10px;font-weight:500;letter-spacing:0.05em;}
 .sell-step{display:flex;gap:10px;align-items:flex-start;margin-bottom:8px;font-size:12px;color:var(--ink2);line-height:1.6;}
 .sell-step:last-child{margin-bottom:0;}
 .sell-num{width:20px;height:20px;min-width:20px;border-radius:50%;background:var(--buy);color:white;font-size:10px;display:flex;align-items:center;justify-content:center;margin-top:1px;}
  
 .disc{text-align:center;font-size:10px;color:var(--ink3);opacity:0.55;line-height:1.8;margin-top:24px;padding:16px;border-top:1px solid var(--bd-gold);}
-@media(max-width:640px){h1{font-size:30px;}.s-metrics{grid-template-columns:repeat(2,1fr);}.ind-grid{grid-template-columns:1fr 1fr;}.stats-grid{grid-template-columns:1fr;}.pt-grid{grid-template-columns:1fr;gap:10px;}.v-action{font-size:32px;}.score-grid{grid-template-columns:1fr 1fr;}.divid-grid{grid-template-columns:1fr;}.scenario-grid{grid-template-columns:1fr;}.money-input-row{flex-wrap:wrap;}}
+@media(max-width:640px){h1{font-size:30px;}.s-metrics{grid-template-columns:repeat(2,1fr);}.ind-grid{grid-template-columns:1fr 1fr;}.stats-grid{grid-template-columns:1fr;}.pt-grid{grid-template-columns:1fr;gap:10px;}.v-action{font-size:32px;}.score-grid{grid-template-columns:1fr 1fr;}.divid-grid{grid-template-columns:1fr;}.scenario-grid{grid-template-columns:1fr;}.trade-type-row{flex-direction:column;}.money-row{flex-direction:column;align-items:stretch;}}
 </style>
 </head>
 <body>
@@ -228,22 +241,25 @@ h1 em{font-style:italic;color:var(--g2);}
   <div class="search-box">
     <span class="s-label">종목 검색</span>
     <div class="s-hint">
-      🇰🇷 한국: <code>005930.KS</code>(삼성전자) · <code>000660.KS</code>(SK하이닉스) · <code>035720.KS</code>(카카오) · <code>005380.KS</code>(현대차)<br>
-      🇺🇸 미국: <code>AAPL</code> · <code>NVDA</code> · <code>TSLA</code> · <code>MSFT</code> · <code>AMZN</code>
+      한글 종목명으로 검색 가능합니다 — 삼성전자, SK하이닉스, 카카오, 현대차<br>
+      미국주식: <code>AAPL</code> · <code>NVDA</code> · <code>TSLA</code> · <code>MSFT</code> · <code>AMZN</code>
     </div>
     <div class="s-row">
-      <div class="s-wrap"><input class="s-inp" type="text" id="stock-input" placeholder="예: 005930.KS (삼성전자), AAPL (애플)" /></div>
+      <div class="s-wrap">
+        <input class="s-inp" type="text" id="stock-input" placeholder="예: 삼성전자, 카카오, AAPL, NVDA" autocomplete="off" oninput="onSearchInput(this.value)" onkeydown="onSearchKey(event)" />
+        <div class="autocomplete" id="autocomplete"></div>
+      </div>
       <button class="btn-gold" id="analyze-btn" onclick="analyzeStock()">분 석</button>
     </div>
     <div class="ex-row">빠른 선택:
-      <span class="ex-tag" onclick="qs('005930.KS')">삼성전자</span>
-      <span class="ex-tag" onclick="qs('000660.KS')">SK하이닉스</span>
-      <span class="ex-tag" onclick="qs('035720.KS')">카카오</span>
-      <span class="ex-tag" onclick="qs('005380.KS')">현대차</span>
-      <span class="ex-tag" onclick="qs('NVDA')">NVIDIA</span>
-      <span class="ex-tag" onclick="qs('AAPL')">Apple</span>
-      <span class="ex-tag" onclick="qs('TSLA')">Tesla</span>
-      <span class="ex-tag" onclick="qs('MSFT')">Microsoft</span>
+      <span class="ex-tag" onclick="qs('삼성전자','005930.KS')">삼성전자</span>
+      <span class="ex-tag" onclick="qs('SK하이닉스','000660.KS')">SK하이닉스</span>
+      <span class="ex-tag" onclick="qs('카카오','035720.KS')">카카오</span>
+      <span class="ex-tag" onclick="qs('현대자동차','005380.KS')">현대차</span>
+      <span class="ex-tag" onclick="qs('NVIDIA','NVDA')">NVIDIA</span>
+      <span class="ex-tag" onclick="qs('Apple','AAPL')">Apple</span>
+      <span class="ex-tag" onclick="qs('Tesla','TSLA')">Tesla</span>
+      <span class="ex-tag" onclick="qs('Microsoft','MSFT')">Microsoft</span>
     </div>
   </div>
  
@@ -265,7 +281,6 @@ h1 em{font-style:italic;color:var(--g2);}
  
   <div id="result">
     <div style="text-align:right;font-size:10px;color:var(--ink3);opacity:0.6;margin-bottom:6px;" id="data-src"></div>
- 
     <div class="sec-head"><span class="sec-title">◆ 종목 개요</span><div class="sec-rule"></div></div>
     <div class="stock-hdr">
       <div class="s-name" id="s-name"></div>
@@ -339,16 +354,25 @@ h1 em{font-style:italic;color:var(--g2);}
       </div>
     </div>
  
-    <!-- 이규영 추천 계산기 -->
     <div class="sec-head"><span class="sec-title">◆ 이규영이 추천하는 투자 계산기</span><div class="sec-rule"></div></div>
     <div class="calc-outer" id="calc-outer">
       <div id="calc-header"></div>
       <div class="calc-body">
-        <div id="calc-watch-section"></div>
-        <div class="money-input-row">
+        <div id="calc-context"></div>
+        <div style="margin-bottom:12px;">
+          <div style="font-size:11px;letter-spacing:0.15em;color:var(--ink3);text-transform:uppercase;margin-bottom:10px;">투자 스타일 선택</div>
+          <div class="trade-type-row">
+            <button class="trade-btn" id="btn-short" onclick="selectTradeType('short')">⚡ 단타 (1~4주)</button>
+            <button class="trade-btn" id="btn-long" onclick="selectTradeType('long')">🌱 장투 (3개월 이상)</button>
+          </div>
+          <div class="trade-desc" id="trade-desc">단타 또는 장투를 선택해주세요.</div>
+        </div>
+        <div class="money-row">
           <span class="money-label">투자 가능 금액</span>
-          <input class="money-inp" type="number" id="money-input" placeholder="5000000" step="100000" />
-          <span class="money-unit">원</span>
+          <div class="money-inp-wrap">
+            <input class="money-inp" type="text" id="money-input" placeholder="5,000,000" oninput="formatMoney(this)" />
+            <span class="money-unit-inside">원</span>
+          </div>
           <button class="btn-calc" onclick="calcInvest()">계산하기</button>
         </div>
         <div class="divid-plan" id="divid-plan"></div>
@@ -361,19 +385,146 @@ h1 em{font-style:italic;color:var(--g2);}
  
 <script>
 const AKEY='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';
-let chartInst=null,stockData=null,analysisResult=null;
+let chartInst=null, stockData=null, analysisResult=null, selectedTradeType=null, selectedTicker='';
  
-document.getElementById('stock-input').addEventListener('keydown',e=>{if(e.key==='Enter')analyzeStock();});
-function qs(t){document.getElementById('stock-input').value=t;analyzeStock();}
+// ── 한국 주식 DB ──
+const KR_STOCKS=[
+  {name:'삼성전자',code:'005930.KS',alias:['삼전']},
+  {name:'SK하이닉스',code:'000660.KS',alias:['하이닉스','SK하닉']},
+  {name:'LG에너지솔루션',code:'373220.KS',alias:['엘지에너지','LGES']},
+  {name:'삼성바이오로직스',code:'207940.KS',alias:['삼바']},
+  {name:'현대자동차',code:'005380.KS',alias:['현대차','현자']},
+  {name:'기아',code:'000270.KS',alias:['기아차']},
+  {name:'POSCO홀딩스',code:'005490.KS',alias:['포스코']},
+  {name:'삼성SDI',code:'006400.KS',alias:[]},
+  {name:'LG화학',code:'051910.KS',alias:['엘지화학']},
+  {name:'카카오',code:'035720.KS',alias:[]},
+  {name:'카카오뱅크',code:'323410.KS',alias:[]},
+  {name:'네이버',code:'035420.KS',alias:['NAVER']},
+  {name:'셀트리온',code:'068270.KS',alias:[]},
+  {name:'삼성물산',code:'028260.KS',alias:[]},
+  {name:'현대모비스',code:'012330.KS',alias:[]},
+  {name:'KB금융',code:'105560.KS',alias:[]},
+  {name:'신한지주',code:'055550.KS',alias:[]},
+  {name:'하나금융지주',code:'086790.KS',alias:['하나금융']},
+  {name:'우리금융지주',code:'316140.KS',alias:['우리금융']},
+  {name:'삼성생명',code:'032830.KS',alias:[]},
+  {name:'SK텔레콤',code:'017670.KS',alias:['SKT']},
+  {name:'KT',code:'030200.KS',alias:[]},
+  {name:'LG전자',code:'066570.KS',alias:['엘지전자']},
+  {name:'롯데케미칼',code:'011170.KS',alias:['롯데화학']},
+  {name:'한국전력',code:'015760.KS',alias:['한전']},
+  {name:'두산에너빌리티',code:'034020.KS',alias:['두산중공업']},
+  {name:'HMM',code:'011200.KS',alias:['현대상선']},
+  {name:'SK이노베이션',code:'096770.KS',alias:[]},
+  {name:'LG디스플레이',code:'034220.KS',alias:['엘지디스플레이']},
+  {name:'삼성전기',code:'009150.KS',alias:[]},
+  {name:'크래프톤',code:'259960.KS',alias:[]},
+  {name:'카카오게임즈',code:'293490.KQ',alias:[]},
+  {name:'펄어비스',code:'263750.KQ',alias:[]},
+  {name:'엔씨소프트',code:'036570.KS',alias:['NC']},
+  {name:'넷마블',code:'251270.KS',alias:[]},
+  {name:'CJ제일제당',code:'097950.KS',alias:[]},
+  {name:'아모레퍼시픽',code:'090430.KS',alias:['아모레']},
+  {name:'LG생활건강',code:'051900.KS',alias:['LG생건']},
+  {name:'오리온',code:'271560.KS',alias:[]},
+  {name:'농심',code:'004370.KS',alias:[]},
+  {name:'삼성重工業',code:'010140.KS',alias:['삼성중공업']},
+  {name:'한화오션',code:'042660.KS',alias:['대우조선']},
+  {name:'현대重工業',code:'329180.KS',alias:['현대중공업']},
+  {name:'에코프로비엠',code:'247540.KQ',alias:['에코프로B']},
+  {name:'에코프로',code:'086520.KQ',alias:[]},
+  {name:'포스코퓨처엠',code:'003670.KS',alias:['포스코케미칼']},
+  {name:'금양',code:'001570.KS',alias:[]},
+  {name:'HD현대일렉트릭',code:'267260.KS',alias:[]},
+  {name:'LS ELECTRIC',code:'010120.KS',alias:['LS일렉트릭']},
+  {name:'효성중공업',code:'298040.KS',alias:[]},
+];
+ 
+function searchStock(q){
+  if(!q||q.length<1)return [];
+  const lq=q.toLowerCase().replace(/\s/g,'');
+  return KR_STOCKS.filter(s=>{
+    const n=s.name.toLowerCase().replace(/\s/g,'');
+    const c=s.code.toLowerCase();
+    const match=n.includes(lq)||c.includes(lq)||s.alias.some(a=>a.toLowerCase().replace(/\s/g,'').includes(lq));
+    return match;
+  }).slice(0,8);
+}
+ 
+function onSearchInput(val){
+  const ac=document.getElementById('autocomplete');
+  // 영문 티커거나 코드형이면 자동완성 숨김
+  if(/^[A-Za-z0-9.]+$/.test(val.trim())){ac.style.display='none';return;}
+  const results=searchStock(val.trim());
+  if(!results.length){ac.style.display='none';return;}
+  ac.innerHTML=results.map((s,i)=>`<div class="ac-item" onclick="selectAC('${s.name}','${s.code}')" data-idx="${i}"><span class="ac-name">${s.name}</span><span class="ac-code">${s.code}</span></div>`).join('');
+  ac.style.display='block';
+}
+ 
+let acIdx=-1;
+function onSearchKey(e){
+  const ac=document.getElementById('autocomplete');
+  const items=ac.querySelectorAll('.ac-item');
+  if(e.key==='ArrowDown'){acIdx=Math.min(acIdx+1,items.length-1);items.forEach((el,i)=>el.style.background=i===acIdx?'rgba(212,175,55,0.18)':'');e.preventDefault();}
+  else if(e.key==='ArrowUp'){acIdx=Math.max(acIdx-1,0);items.forEach((el,i)=>el.style.background=i===acIdx?'rgba(212,175,55,0.18)':'');e.preventDefault();}
+  else if(e.key==='Enter'){
+    if(acIdx>=0&&items[acIdx]){items[acIdx].click();}
+    else{ac.style.display='none';analyzeStock();}
+  }
+  else if(e.key==='Escape'){ac.style.display='none';}
+}
+ 
+function selectAC(name, code){
+  document.getElementById('stock-input').value=name;
+  selectedTicker=code;
+  document.getElementById('autocomplete').style.display='none';
+  acIdx=-1;
+}
+ 
+document.addEventListener('click',e=>{
+  if(!e.target.closest('.s-wrap'))document.getElementById('autocomplete').style.display='none';
+});
+ 
+function qs(name, code){
+  document.getElementById('stock-input').value=name;
+  selectedTicker=code;
+  document.getElementById('autocomplete').style.display='none';
+  analyzeStock();
+}
+ 
+// ── 금액 콤마 포맷 ──
+function formatMoney(el){
+  let val=el.value.replace(/[^0-9]/g,'');
+  if(val)el.value=parseInt(val).toLocaleString('ko-KR');
+  else el.value='';
+}
+function getMoneyVal(){
+  return parseInt(document.getElementById('money-input').value.replace(/[^0-9]/g,'')||'0');
+}
+ 
+function selectTradeType(type){
+  selectedTradeType=type;
+  document.getElementById('btn-short').className='trade-btn'+(type==='short'?' active-short':'');
+  document.getElementById('btn-long').className='trade-btn'+(type==='long'?' active-long':'');
+  const descs={
+    short:'⚡ 단타: 1~4주 단기 매매. 빠른 수익 실현을 목표로 진입가·목표가·손절가를 타이트하게 설정합니다. 변동성이 크므로 소액 분할매수를 권장합니다.',
+    long:'🌱 장투: 3개월 이상 중장기 보유. 분할매수로 평균단가를 낮추고, 목표가를 높게 설정하여 큰 수익을 노립니다. 손절선을 넓게 설정합니다.'
+  };
+  document.getElementById('trade-desc').textContent=descs[type];
+}
+ 
+// ── 주식 분석 ──
+function setStep(n){[1,2,3,4].forEach(i=>{const el=document.getElementById('step'+i);if(i<n)el.className='step done';else if(i===n)el.className='step active';else el.className='step';});}
+ 
 function fmtP(p,isKRW){if(p==null||isNaN(p))return 'N/A';return isKRW?Math.round(p).toLocaleString('ko-KR')+'원':'$'+Number(p).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});}
 function fmtV(v){if(!v||isNaN(v))return 'N/A';if(v>=1e9)return(v/1e9).toFixed(2)+'B';if(v>=1e6)return(v/1e6).toFixed(2)+'M';if(v>=1e3)return(v/1e3).toFixed(1)+'K';return String(v);}
 function fmtCap(v,isKRW){if(!v||isNaN(v))return 'N/A';if(isKRW){if(v>=1e12)return(v/1e12).toFixed(1)+'조원';return(v/1e8).toFixed(0)+'억원';}if(v>=1e12)return'$'+(v/1e12).toFixed(2)+'T';if(v>=1e9)return'$'+(v/1e9).toFixed(2)+'B';return'$'+(v/1e6).toFixed(2)+'M';}
 function comma(n){return Math.round(n).toLocaleString('ko-KR');}
-function setStep(n){[1,2,3,4].forEach(i=>{const el=document.getElementById('step'+i);if(i<n)el.className='step done';else if(i===n)el.className='step active';else el.className='step';});}
  
 async function proxyFetch(url){
   const proxies=[
-    ()=>fetch(`https://corsproxy.io/?${encodeURIComponent(url)}`,{signal:AbortSignal.timeout(9000)}).then(r=>r.text()).then(t=>{try{const j=JSON.parse(t);return j;}catch{return JSON.parse(t);}}),
+    ()=>fetch(`https://corsproxy.io/?${encodeURIComponent(url)}`,{signal:AbortSignal.timeout(9000)}).then(r=>r.text()).then(t=>{try{return JSON.parse(t);}catch{return JSON.parse(t);}}),
     ()=>fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(url)}`,{signal:AbortSignal.timeout(9000)}).then(r=>r.json()).then(j=>JSON.parse(j.contents)),
     ()=>fetch(`https://thingproxy.freeboard.io/fetch/${url}`,{signal:AbortSignal.timeout(9000)}).then(r=>r.json())
   ];
@@ -382,14 +533,36 @@ async function proxyFetch(url){
 }
  
 async function analyzeStock(){
-  const ticker=document.getElementById('stock-input').value.trim().toUpperCase();
-  if(!ticker)return;
+  const inputVal=document.getElementById('stock-input').value.trim();
+  if(!inputVal)return;
+ 
+  // 티커 결정: 자동완성으로 선택됐거나, 영문이면 그대로, 한글이면 DB 검색
+  let ticker=selectedTicker;
+  if(!ticker){
+    if(/^[A-Za-z0-9.]+$/.test(inputVal)){
+      ticker=inputVal.toUpperCase();
+    } else {
+      const found=searchStock(inputVal);
+      if(found.length>0){ticker=found[0].code;}
+      else{
+        document.getElementById('err-panel').style.display='block';
+        document.getElementById('err-body').innerHTML=`<strong>${inputVal}</strong> 종목을 찾을 수 없습니다.<br>한글 종목명(삼성전자, 카카오 등) 또는 영문 티커(AAPL, NVDA)로 입력해주세요.`;
+        return;
+      }
+    }
+  }
+ 
   document.getElementById('loading').style.display='block';
   document.getElementById('result').style.display='none';
   document.getElementById('err-panel').style.display='none';
   document.getElementById('analyze-btn').disabled=true;
   document.getElementById('divid-plan').style.display='none';
+  selectedTradeType=null;
+  document.getElementById('btn-short').className='trade-btn';
+  document.getElementById('btn-long').className='trade-btn';
+  document.getElementById('trade-desc').textContent='단타 또는 장투를 선택해주세요.';
   setStep(1);
+ 
   try{
     const chartUrl=`https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(ticker)}?interval=1d&range=3mo`;
     const quoteUrl=`https://query1.finance.yahoo.com/v10/finance/quoteSummary/${encodeURIComponent(ticker)}?modules=summaryDetail,defaultKeyStatistics,financialData,price,assetProfile`;
@@ -467,55 +640,32 @@ async function analyzeStock(){
  
     document.getElementById('loading').style.display='none';
     document.getElementById('result').style.display='block';
+    selectedTicker='';
     document.getElementById('result').scrollIntoView({behavior:'smooth',block:'start'});
   }catch(err){
     document.getElementById('loading').style.display='none';
     document.getElementById('err-panel').style.display='block';
     let msg=err.message;
-    if(msg.includes('프록시')||msg.includes('fetch')||msg.includes('Failed')){msg=`네트워크 연결 실패.<br><br>• 종목코드 확인 (예: <code>005930.KS</code>, <code>AAPL</code>)<br>• 잠시 후 재시도`;}
-    else if(msg.includes('찾을 수 없')||msg.includes('데이터가 없')){msg=`종목을 찾을 수 없습니다.<br>한국주식: <code>005930.KS</code> / 미국주식: <code>AAPL</code>`;}
+    if(msg.includes('프록시')||msg.includes('fetch')||msg.includes('Failed')){msg=`네트워크 연결 실패.<br><br>• 잠시 후 재시도해주세요<br>• 인터넷 연결 상태 확인`;}
+    else if(msg.includes('찾을 수 없')||msg.includes('데이터가 없')){msg=`종목을 찾을 수 없습니다.<br>한글: 삼성전자, 카카오 / 영문: <code>AAPL</code>, <code>NVDA</code>`;}
     document.getElementById('err-body').innerHTML=msg;
   }
   document.getElementById('analyze-btn').disabled=false;
 }
  
 async function genAI(ticker,isKRW,curr,chgPct,rsi,macd,macdSig,ma5,ma20,ma60,bbUp,bbLow,support,resistance,stoch,meta,qd,qk,qf,qa,pf,prevClose,lastHi,lastLo){
-  const prompt=`당신은 최고의 주식 애널리스트입니다. ${ticker}의 실제 데이터를 분석해주세요.
- 
-=== 실제 시장 데이터 ===
-현재가: ${pf(curr)} | 등락: ${chgPct>=0?'+':''}${chgPct.toFixed(2)}%
-전일종가: ${pf(prevClose)} | 당일고가: ${pf(lastHi)} | 당일저가: ${pf(lastLo)}
-52주 고가: ${pf(meta.fiftyTwoWeekHigh)} | 52주 저가: ${pf(meta.fiftyTwoWeekLow)}
- 
-=== 기술적 지표 ===
-RSI(14): ${rsi.toFixed(1)} | MACD: ${macd.toFixed(2)} | Signal: ${macdSig.toFixed(2)}
-MA5: ${pf(ma5)} | MA20: ${pf(ma20)} | MA60: ${pf(ma60)}
-볼린저밴드 상단: ${pf(bbUp)} | 하단: ${pf(bbLow)}
-스토캐스틱: ${stoch.toFixed(1)}
-지지선: ${pf(support)} | 저항선: ${pf(resistance)}
- 
-=== 밸류에이션 ===
-PER: ${qd.trailingPE?.raw?.toFixed(1)||'N/A'} | 배당수익률: ${qd.dividendYield?.raw?(qd.dividendYield.raw*100).toFixed(2)+'%':'N/A'}
-베타: ${qd.beta?.raw?.toFixed(2)||'N/A'} | 업종: ${qa.sector||'N/A'}
+  const prompt=`당신은 최고의 주식 애널리스트입니다. ${ticker} 실제 데이터 분석:
+현재가:${pf(curr)} 등락:${chgPct>=0?'+':''}${chgPct.toFixed(2)}% 전일:${pf(prevClose)} 고:${pf(lastHi)} 저:${pf(lastLo)}
+52주고:${pf(meta.fiftyTwoWeekHigh)} 52주저:${pf(meta.fiftyTwoWeekLow)}
+RSI:${rsi.toFixed(1)} MACD:${macd.toFixed(2)} Signal:${macdSig.toFixed(2)}
+MA5:${pf(ma5)} MA20:${pf(ma20)} MA60:${pf(ma60)}
+BB상단:${pf(bbUp)} BB하단:${pf(bbLow)} 스토캐스틱:${stoch.toFixed(1)}
+지지:${pf(support)} 저항:${pf(resistance)}
+PER:${qd.trailingPE?.raw?.toFixed(1)||'N/A'} 배당:${qd.dividendYield?.raw?(qd.dividendYield.raw*100).toFixed(2)+'%':'N/A'}
+베타:${qd.beta?.raw?.toFixed(2)||'N/A'} 업종:${qa.sector||'N/A'}
  
 JSON만 응답:
-{
-  "technicalAnalysis":"기술적분석 200자이상",
-  "fundamentalAnalysis":"펀더멘털분석 200자이상",
-  "marketContext":"시장환경분석 200자이상",
-  "news":[
-    {"title":"관련이슈1","sentiment":"pos또는neg또는neu","impact":"호재또는악재또는중립","date":"최근"},
-    {"title":"관련이슈2","sentiment":"pos또는neg또는neu","impact":"호재또는악재또는중립","date":"최근"},
-    {"title":"관련이슈3","sentiment":"pos또는neg또는neu","impact":"호재또는악재또는중립","date":"최근"}
-  ],
-  "verdict":"매수또는매도또는관망",
-  "entryPrice":숫자,
-  "targetPrice":숫자,
-  "stopLoss":숫자,
-  "riskLevel":숫자,
-  "verdictReason":"판단근거 250자이상",
-  "calcRecommend":"매수추천시 분할매수전략 설명, 관망/매도시 왜 1주만 관망하는지 설명 150자이상"
-}`;
+{"technicalAnalysis":"기술적분석200자이상","fundamentalAnalysis":"펀더멘털200자이상","marketContext":"시장환경200자이상","news":[{"title":"이슈1","sentiment":"pos/neg/neu","impact":"호재/악재/중립","date":"최근"},{"title":"이슈2","sentiment":"pos/neg/neu","impact":"호재/악재/중립","date":"최근"},{"title":"이슈3","sentiment":"pos/neg/neu","impact":"호재/악재/중립","date":"최근"}],"verdict":"매수/매도/관망","entryPrice":숫자,"targetPrice":숫자,"stopLoss":숫자,"riskLevel":숫자,"verdictReason":"판단근거250자이상"}`;
  
   setStep(4);
   try{
@@ -532,19 +682,13 @@ JSON만 응답:
   }catch(e){
     const verdict=rsi<35&&macd>macdSig?'매수':rsi>65&&macd<macdSig?'매도':'관망';
     const fb={
-      technicalAnalysis:`RSI ${rsi.toFixed(1)}(${rsi>70?'과매수':rsi<30?'과매도':'중립'}), MACD ${macd>macdSig?'골든크로스':'데드크로스'}, MA5 ${ma5>ma20?'상위(상승추세)':'하위(하락추세)'}. 볼린저밴드 ${Math.round((curr-bbLow)/(bbUp-bbLow)*100)}% 위치. 지지선 ${pf(support)}, 저항선 ${pf(resistance)}.`,
-      fundamentalAnalysis:`현재가 ${pf(curr)}, 52주 고가 대비 ${((curr/meta.fiftyTwoWeekHigh-1)*100).toFixed(1)}%, 저가 대비 +${((curr/meta.fiftyTwoWeekLow-1)*100).toFixed(1)}% 수준.`,
-      marketContext:`글로벌 변동성 환경 속 업종 내 경쟁 구도와 금리 환경 모니터링 필요.`,
-      news:[
-        {title:`${ticker} 최근 주가 ${chgPct>=0?'강세':'약세'}`,sentiment:chgPct>=0?'pos':'neg',impact:chgPct>=0?'호재':'악재',date:'최근'},
-        {title:'글로벌 금리 환경 변화 영향',sentiment:'neu',impact:'중립',date:'최근'},
-        {title:'기관·외국인 수급 동향 주목',sentiment:'neu',impact:'중립',date:'최근'}
-      ],
-      verdict,
-      entryPrice:support*1.01,targetPrice:resistance*1.05,stopLoss:support*0.97,
+      technicalAnalysis:`RSI ${rsi.toFixed(1)}(${rsi>70?'과매수':rsi<30?'과매도':'중립'}), MACD ${macd>macdSig?'골든크로스':'데드크로스'}, MA5가 MA20 ${ma5>ma20?'상위(상승)':'하위(하락)'}. BB ${Math.round((curr-bbLow)/(bbUp-bbLow)*100)}% 위치. 지지선 ${stockData.pf(support)}, 저항선 ${stockData.pf(resistance)}.`,
+      fundamentalAnalysis:`현재가 ${stockData.pf(curr)}, 52주 고가 대비 ${((curr/meta.fiftyTwoWeekHigh-1)*100).toFixed(1)}% 수준.`,
+      marketContext:`거시경제 환경과 업종 내 경쟁 구도를 함께 모니터링하세요.`,
+      news:[{title:`${ticker} 최근 ${chgPct>=0?'강세':'약세'}`,sentiment:chgPct>=0?'pos':'neg',impact:chgPct>=0?'호재':'악재',date:'최근'},{title:'글로벌 금리 환경 변화',sentiment:'neu',impact:'중립',date:'최근'},{title:'기관·외국인 수급 동향',sentiment:'neu',impact:'중립',date:'최근'}],
+      verdict,entryPrice:support*1.01,targetPrice:resistance*1.05,stopLoss:support*0.97,
       riskLevel:rsi>65?72:rsi<35?38:55,
-      verdictReason:`RSI ${rsi.toFixed(1)}, MACD ${macd>macdSig?'골든크로스':'데드크로스'} 기반 ${verdict} 판단. 진입가 ${pf(support*1.01)}, 목표가 ${pf(resistance*1.05)}, 손절가 ${pf(support*0.97)}.`,
-      calcRecommend:verdict==='매수'?'3회 분할매수 전략을 권장합니다. 지지선 근처 1차 매수 후 추가 하락 시 2차, 3차로 나누어 매수하면 평균 단가를 낮출 수 있습니다.':'현재 매수보다는 1주만 매수하여 종목을 포트폴리오에 편입하고 추세를 지켜보는 관망 전략을 권장합니다. 신호가 개선되면 추가 매수를 검토하세요.'
+      verdictReason:`RSI ${rsi.toFixed(1)}, MACD ${macd>macdSig?'골든크로스':'데드크로스'} 기반 ${verdict} 판단.`
     };
     analysisResult=fb;
     renderResult(fb,stockData.isKRW,stockData.curr,stockData.pf);
@@ -555,17 +699,12 @@ function renderResult(d,isKRW,curr,pf){
   document.getElementById('ana-card').innerHTML=`
     <div class="ana-section"><div class="ana-section-title">📊 기술적 분석</div><div class="ana-txt">${d.technicalAnalysis}</div></div>
     <div class="ana-section"><div class="ana-section-title">💼 펀더멘털 분석</div><div class="ana-txt">${d.fundamentalAnalysis}</div></div>
-    <div class="ana-section"><div class="ana-section-title">🌐 시장 환경 분석</div><div class="ana-txt">${d.marketContext}</div></div>
-  `;
+    <div class="ana-section"><div class="ana-section-title">🌐 시장 환경 분석</div><div class="ana-txt">${d.marketContext}</div></div>`;
   document.getElementById('news-grid').innerHTML=(d.news||[]).map(n=>`
     <div class="news-item">
-      <div class="news-dot ${n.sentiment}" style="margin-top:5px;"></div>
-      <div class="news-content">
-        <div class="news-title">${n.title}</div>
-        <div class="news-meta">${n.date}<span class="news-impact impact-${n.sentiment}">${n.impact}</span></div>
-      </div>
+      <div class="news-dot ${n.sentiment}"></div>
+      <div><div class="news-title">${n.title}</div><div class="news-meta">${n.date}<span class="news-impact impact-${n.sentiment}">${n.impact}</span></div></div>
     </div>`).join('');
- 
   const isBear=d.verdict==='매도',isHold=d.verdict==='관망';
   document.getElementById('verdict-card').className='verdict'+(isBear?' bear':isHold?' hold':'');
   document.getElementById('v-action').textContent={'매수':'✦ 매수 (BUY)','매도':'✦ 매도 (SELL)','관망':'◈ 관망 (HOLD)'}[d.verdict]||d.verdict;
@@ -580,96 +719,60 @@ function renderResult(d,isKRW,curr,pf){
   const risk=parseInt(d.riskLevel);
   document.getElementById('risk-pct').textContent=risk+' / 100';
   setTimeout(()=>{document.getElementById('risk-f').style.width=risk+'%';},300);
- 
-  // 계산기 헤더 설정
-  buildCalcHeader(d.verdict, d.calcRecommend, d.entryPrice, d.targetPrice, d.stopLoss, isKRW, pf);
+  buildCalcHeader(d.verdict,pf,ent,tgt,stp);
 }
  
-function buildCalcHeader(verdict, calcRecommend, entryPrice, targetPrice, stopLoss, isKRW, pf){
-  const headerEl=document.getElementById('calc-header');
-  const watchEl=document.getElementById('calc-watch-section');
-  const isBuy=verdict==='매수';
-  const headerClass=verdict==='매수'?'calc-header-buy':verdict==='매도'?'calc-header-sell':'calc-header-hold';
- 
-  headerEl.className=headerClass;
-  headerEl.innerHTML=`
+function buildCalcHeader(verdict,pf,ent,tgt,stp){
+  const hdr=document.getElementById('calc-header');
+  const ctx=document.getElementById('calc-context');
+  const isBuy=verdict==='매수',isSell=verdict==='매도';
+  hdr.className=isBuy?'calc-hdr-buy':isSell?'calc-hdr-sell':'calc-hdr-hold';
+  hdr.innerHTML=`
     <div class="calc-author">이규영이 추천하는 투자 전략</div>
-    <div class="calc-headline">${isBuy?'✦ 지금이 매수 타이밍입니다':'◈ '+verdict+' — 1주 관망 전략을 권장합니다'}</div>
-    <div class="calc-sub">${isBuy?'분할매수로 리스크를 분산하세요. 투자 금액을 입력하면 구체적인 매수 계획을 계산해드립니다.':'현 시점에서 적극적인 매수보다는 신중한 접근이 필요합니다.'}</div>
-  `;
- 
-  if(!isBuy){
-    watchEl.innerHTML=`
-      <div class="calc-watch">
-        <div class="calc-watch-title">📌 1주 관망 전략</div>
-        <div class="calc-watch-txt">
-          ${calcRecommend||'현재 시장 상황상 적극적인 매수보다는 1주만 매수하여 포트폴리오에 편입하고 추세를 지켜보는 것을 권장합니다.'}<br><br>
-          <strong>1주 매수 시:</strong> ${pf(stockData.curr)} 매수 → 목표가 ${pf(targetPrice)} 도달 시 전량 매도 / ${pf(stopLoss)} 하방 이탈 시 손절
-        </div>
-      </div>`;
-  }else{
-    watchEl.innerHTML=`<div style="font-size:12px;color:var(--ink3);margin-bottom:12px;">${calcRecommend||'분할매수 전략으로 리스크를 분산하세요.'}</div>`;
-  }
+    <div class="calc-headline">${isBuy?'✦ 매수 추천 — 분할매수 계획을 세워보세요':isSell?'✦ 매도 추천 — 보유 중이라면 정리를 고려하세요':'◈ 관망 추천 — 1주 매수 후 추세 확인을 권장합니다'}</div>
+    <div class="calc-sub">${isBuy?'투자 스타일(단타/장투)을 선택하고 금액을 입력하면 분할매수 계획을 계산해드립니다.':isSell?'현재 매수보다는 기존 보유분 정리 후 재진입 타이밍을 노리세요.':'현 시점에서 1주만 매수하여 관망하면서 추세 반전 시 추가 매수를 검토하세요.'}</div>`;
+  ctx.innerHTML=`<div style="font-size:12px;color:var(--ink3);margin-bottom:16px;padding:10px 14px;background:rgba(212,175,55,0.06);border-radius:3px;line-height:1.8;">
+    <strong style="color:var(--ink2);">현재 AI 판단:</strong> 진입가 ${pf(ent)} · 목표가 ${pf(tgt)} · 손절가 ${pf(stp)}<br>
+    <span style="font-size:11px;">아래 단타/장투 선택에 따라 진입 전략이 달라집니다.</span></div>`;
 }
  
 function calcInvest(){
-  const money=parseFloat(document.getElementById('money-input').value);
-  if(!money||money<=0){alert('투자 금액을 입력해주세요.');return;}
+  const money=getMoneyVal();
+  if(!money||money<1000){alert('투자 금액을 입력해주세요. (최소 1,000원)');return;}
+  if(!selectedTradeType){alert('단타 또는 장투를 먼저 선택해주세요.');return;}
   if(!analysisResult||!stockData){alert('먼저 종목을 분석해주세요.');return;}
  
   const{curr,isKRW,pf,support,resistance}=stockData;
   const verdict=analysisResult.verdict;
-  const entryPrice=parseFloat(analysisResult.entryPrice)||curr;
-  const targetPrice=parseFloat(analysisResult.targetPrice)||(curr*1.15);
-  const stopLoss=parseFloat(analysisResult.stopLoss)||(curr*0.93);
+  const rawEntry=parseFloat(analysisResult.entryPrice)||curr;
+  const rawTarget=parseFloat(analysisResult.targetPrice)||(curr*1.15);
+  const rawStop=parseFloat(analysisResult.stopLoss)||(curr*0.93);
+  const isShort=selectedTradeType==='short';
  
-  const plan=document.getElementById('divid-plan');
-  plan.style.display='block';
- 
-  if(verdict!=='매수'){
-    // 관망/매도: 1주 계산
-    const oneShare=curr;
-    const profit=targetPrice-curr;
-    const loss=curr-stopLoss;
-    plan.innerHTML=`
-      <div class="divid-title">◈ 관망 — 1주 매수 시 시나리오</div>
-      <div class="divid-grid" style="grid-template-columns:1fr 1fr 1fr;">
-        <div class="divid-card">
-          <div class="divid-label">매수 금액 (1주)</div>
-          <div class="divid-price">${pf(curr)}</div>
-          <div class="divid-shares">1주 매수</div>
-        </div>
-        <div class="divid-card" style="background:rgba(26,92,42,0.04);border-color:rgba(26,92,42,0.3);">
-          <div class="divid-label">목표가 도달 시 수익</div>
-          <div class="divid-price" style="color:var(--buy);">+${pf(profit)}</div>
-          <div class="divid-shares">${pf(targetPrice)} 매도 시</div>
-        </div>
-        <div class="divid-card" style="background:rgba(139,26,26,0.04);border-color:rgba(139,26,26,0.3);">
-          <div class="divid-label">손절 시 손실</div>
-          <div class="divid-price" style="color:var(--sell);">-${pf(loss)}</div>
-          <div class="divid-shares">${pf(stopLoss)} 손절 시</div>
-        </div>
-      </div>
-      <div class="sell-guide">
-        <div class="sell-guide-title">📋 이규영의 관망 전략</div>
-        <div class="sell-step"><div class="sell-num">1</div><div>${pf(curr)}에 1주만 매수하여 포트폴리오 편입</div></div>
-        <div class="sell-step"><div class="sell-num">2</div><div>매수 신호 확인 (RSI 30 이하, MACD 골든크로스) 시 추가 매수 검토</div></div>
-        <div class="sell-step"><div class="sell-num">3</div><div>${pf(targetPrice)} 도달 시 전량 매도</div></div>
-        <div class="sell-step"><div class="sell-num">4</div><div>${pf(stopLoss)} 하방 이탈 시 즉시 손절 (보유 금액 대비 손실 최소화)</div></div>
-      </div>`;
-    return;
+  // 단타/장투별 파라미터
+  let ratios, drops, targetMult, stopMult, holdPeriod;
+  if(isShort){
+    ratios=[0.50,0.30,0.20]; drops=[0,0.02,0.04];
+    targetMult=1.05; stopMult=0.97; holdPeriod='1~4주';
+  } else {
+    ratios=[0.35,0.35,0.30]; drops=[0,0.04,0.08];
+    targetMult=1.20; stopMult=0.93; holdPeriod='3개월 이상';
   }
  
-  // 매수 추천: 3회 분할매수
-  const r1=0.40, r2=0.35, r3=0.25;
-  const m1=money*r1, m2=money*r2, m3=money*r3;
-  const p1=entryPrice;
-  const p2=entryPrice*0.965;
-  const p3=entryPrice*0.935;
-  const s1=Math.floor(m1/p1), s2=Math.floor(m2/p2), s3=Math.floor(m3/p3);
-  const actual1=s1*p1, actual2=s2*p2, actual3=s3*p3;
-  const totalShares=s1+s2+s3;
-  const totalInvest=actual1+actual2+actual3;
+  const entryBase=rawEntry;
+  const targetPrice=isShort?Math.max(rawTarget, entryBase*targetMult):Math.max(rawTarget, entryBase*targetMult);
+  const stopLoss=isShort?Math.min(rawStop, entryBase*stopMult):Math.min(rawStop, entryBase*stopMult);
+ 
+  const plans=ratios.map((r,i)=>{
+    const price=entryBase*(1-drops[i]);
+    const budget=money*r;
+    const shares=Math.max(1,Math.floor(budget/price));
+    const actual=shares*price;
+    return{price,budget,shares,actual};
+  });
+ 
+  const totalShares=plans.reduce((s,p)=>s+p.shares,0);
+  const totalInvest=plans.reduce((s,p)=>s+p.actual,0);
   const avgPrice=totalInvest/totalShares;
   const leftover=money-totalInvest;
   const profitAmt=(targetPrice-avgPrice)*totalShares;
@@ -677,71 +780,73 @@ function calcInvest(){
   const profitPct=((targetPrice-avgPrice)/avgPrice*100).toFixed(1);
   const lossPct=((avgPrice-stopLoss)/avgPrice*100).toFixed(1);
  
-  plan.innerHTML=`
-    <div class="divid-title">✦ 3단계 분할매수 계획</div>
-    <div class="divid-grid">
-      <div class="divid-card first">
-        <div class="divid-badge">1차 매수 (40%)</div>
-        <div class="divid-label" style="margin-top:8px;">진입가</div>
-        <div class="divid-price">${pf(p1)}</div>
-        <div class="divid-amount">${comma(Math.round(actual1))}원 투자</div>
-        <div class="divid-shares">${s1.toLocaleString()}주 매수</div>
-      </div>
-      <div class="divid-card">
-        <div class="divid-badge" style="background:rgba(180,134,11,0.7);">2차 매수 (35%)</div>
-        <div class="divid-label" style="margin-top:8px;">진입가 (현재가 -3.5%)</div>
-        <div class="divid-price">${pf(p2)}</div>
-        <div class="divid-amount">${comma(Math.round(actual2))}원 투자</div>
-        <div class="divid-shares">${s2.toLocaleString()}주 매수</div>
-      </div>
-      <div class="divid-card">
-        <div class="divid-badge" style="background:rgba(107,85,48,0.8);">3차 매수 (25%)</div>
-        <div class="divid-label" style="margin-top:8px;">진입가 (현재가 -6.5%)</div>
-        <div class="divid-price">${pf(p3)}</div>
-        <div class="divid-amount">${comma(Math.round(actual3))}원 투자</div>
-        <div class="divid-shares">${s3.toLocaleString()}주 매수</div>
-      </div>
-    </div>
+  const badgeColors=['#1A5C2A','rgba(180,134,11,0.8)','rgba(107,85,48,0.8)'];
+  const badgeLabels=['1차 매수','2차 매수','3차 매수'];
+  const pctLabels=[`${Math.round(ratios[0]*100)}%`,`${Math.round(ratios[1]*100)}%`,`${Math.round(ratios[2]*100)}%`];
  
+  const plan=document.getElementById('divid-plan');
+  plan.style.display='block';
+ 
+  // 관망/매도도 분할매수 계획 제공 (단, 경고 메시지 포함)
+  const warningHtml = verdict!=='매수' ? `<div style="background:rgba(180,134,11,0.1);border:1px solid rgba(180,134,11,0.3);border-radius:4px;padding:12px 16px;margin-bottom:16px;font-size:12px;color:var(--ink2);line-height:1.8;">
+    ⚠️ <strong>주의:</strong> 현재 AI는 <strong>${verdict}</strong>을 권장합니다. 아래 계획은 ${isShort?'단타':'장투'} 전략으로 진입 시 참고용입니다. ${verdict==='관망'?'1주 소량 매수 후 추세 확인을 권장합니다.':'기존 보유분 정리 후 재진입을 고려하세요.'}
+  </div>` : '';
+ 
+  plan.innerHTML=`
+    ${warningHtml}
+    <div class="divid-title">${isShort?'⚡ 단타':'🌱 장투'} ${verdict==='관망'?'관망 중 소액':''}분할매수 계획 (${holdPeriod})</div>
+    <div class="divid-grid">
+      ${plans.map((p,i)=>`
+      <div class="divid-card ${i===0?'primary':''}">
+        <div class="divid-badge" style="background:${badgeColors[i]};">${badgeLabels[i]} (${pctLabels[i]})</div>
+        <div class="divid-label" style="margin-top:10px;">진입가</div>
+        <div class="divid-price">${pf(p.price)}</div>
+        <div class="divid-amount">${comma(Math.round(p.actual))}원</div>
+        <div class="divid-shares">${p.shares.toLocaleString()}주 매수</div>
+      </div>`).join('')}
+    </div>
     <table class="summary-table">
       <thead><tr><th>항목</th><th>내용</th></tr></thead>
       <tbody>
         <tr><td>총 투자 금액</td><td class="highlight">${comma(Math.round(totalInvest))}원</td></tr>
-        <tr><td>잔여 현금 (예비금)</td><td>${comma(Math.round(leftover))}원</td></tr>
+        <tr><td>예비 현금 (미투자)</td><td>${comma(Math.round(leftover))}원</td></tr>
         <tr><td>총 매수 주수</td><td class="highlight">${totalShares.toLocaleString()}주</td></tr>
         <tr><td>평균 매수단가</td><td class="highlight">${pf(avgPrice)}</td></tr>
-        <tr><td>목표 매도가</td><td style="color:var(--buy);font-weight:600;">${pf(targetPrice)}</td></tr>
-        <tr><td>손절 기준가</td><td style="color:var(--sell);font-weight:600;">${pf(stopLoss)}</td></tr>
+        <tr><td>목표 매도가 ${isShort?'(단타)':'(장투)'}</td><td class="pos-val">${pf(targetPrice)}</td></tr>
+        <tr><td>손절 기준가</td><td class="neg-val">${pf(stopLoss)}</td></tr>
+        <tr><td>예상 보유 기간</td><td>${holdPeriod}</td></tr>
       </tbody>
     </table>
- 
     <div class="scenario-grid">
-      <div class="scenario-card profit">
-        <div class="scenario-label">목표가 달성 시 예상 수익</div>
-        <div class="scenario-val profit-val">+${comma(Math.round(profitAmt))}원</div>
+      <div class="scenario-card sc-profit">
+        <div class="scenario-label">목표가 달성 시 수익</div>
+        <div class="scenario-val sv-profit">+${comma(Math.round(profitAmt))}원</div>
         <div class="scenario-desc">${pf(targetPrice)} 전량 매도 (+${profitPct}%)</div>
       </div>
-      <div class="scenario-card loss">
-        <div class="scenario-label">손절 시 예상 손실</div>
-        <div class="scenario-val loss-val">-${comma(Math.round(lossAmt))}원</div>
+      <div class="scenario-card sc-loss">
+        <div class="scenario-label">손절 시 손실</div>
+        <div class="scenario-val sv-loss">-${comma(Math.round(lossAmt))}원</div>
         <div class="scenario-desc">${pf(stopLoss)} 전량 손절 (-${lossPct}%)</div>
       </div>
     </div>
- 
     <div class="sell-guide">
-      <div class="sell-guide-title">📋 이규영의 매도 전략</div>
-      <div class="sell-step"><div class="sell-num">1</div><div>${pf(p1)}에 1차 매수 (${s1.toLocaleString()}주 · ${comma(Math.round(actual1))}원)</div></div>
-      <div class="sell-step"><div class="sell-num">2</div><div>${pf(p2)} 하락 시 2차 추가매수 (${s2.toLocaleString()}주 · ${comma(Math.round(actual2))}원)</div></div>
-      <div class="sell-step"><div class="sell-num">3</div><div>${pf(p3)} 하락 시 3차 추가매수 (${s3.toLocaleString()}주 · ${comma(Math.round(actual3))}원)</div></div>
-      <div class="sell-step"><div class="sell-num">4</div><div>목표가 ${pf(targetPrice)} 도달 시 → 전체의 70% 매도 (수익 실현), 30%는 추가 상승 대기</div></div>
-      <div class="sell-step"><div class="sell-num">5</div><div>손절선 ${pf(stopLoss)} 하방 이탈 시 → 즉시 전량 매도 (손실 -${lossPct}% 제한)</div></div>
-    </div>
-  `;
+      <div class="sell-guide-title">📋 이규영의 ${isShort?'단타':'장투'} 매도 전략</div>
+      <div class="sell-step"><div class="sell-num">1</div><div>${pf(plans[0].price)}에 1차 매수 (${plans[0].shares.toLocaleString()}주 · ${comma(Math.round(plans[0].actual))}원)</div></div>
+      <div class="sell-step"><div class="sell-num">2</div><div>${pf(plans[1].price)} 하락 시 2차 추가매수 (${plans[1].shares.toLocaleString()}주 · ${comma(Math.round(plans[1].actual))}원)</div></div>
+      <div class="sell-step"><div class="sell-num">3</div><div>${pf(plans[2].price)} 하락 시 3차 추가매수 (${plans[2].shares.toLocaleString()}주 · ${comma(Math.round(plans[2].actual))}원)</div></div>
+      ${isShort?
+        `<div class="sell-step"><div class="sell-num">4</div><div>목표가 ${pf(targetPrice)} 도달 시 → <strong>전량 매도</strong> (단타 수익 실현)</div></div>
+         <div class="sell-step"><div class="sell-num">5</div><div>손절선 ${pf(stopLoss)} 이탈 시 → <strong>즉시 전량 손절</strong> (손실 -${lossPct}% 제한)</div></div>`:
+        `<div class="sell-step"><div class="sell-num">4</div><div>목표가 ${pf(targetPrice)} 도달 시 → <strong>70% 매도</strong> 수익 실현, 30%는 추가 상승 대기</div></div>
+         <div class="sell-step"><div class="sell-num">5</div><div>분기마다 실적 확인 후 보유 여부 재판단</div></div>
+         <div class="sell-step"><div class="sell-num">6</div><div>손절선 ${pf(stopLoss)} 이탈 시 → <strong>즉시 전량 손절</strong> (손실 -${lossPct}% 제한)</div></div>`
+      }
+    </div>`;
 }
  
 function buildScores(rsi,macd,macdSig,ma5,ma20,bbUp,bbLow,curr,stoch,chgPct){
   let t=50;
-  if(rsi<30)t+=20;else if(rsi>70)t-=20;else t+=(50-rsi)/5;
+  if(rsi<30)t+=20;else if(rsi>70)t-=20;
   if(macd>macdSig)t+=15;else t-=15;
   if(ma5>ma20)t+=10;else t-=10;
   t=Math.min(100,Math.max(0,Math.round(t)));
