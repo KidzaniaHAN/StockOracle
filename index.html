@@ -281,6 +281,12 @@ h1 em{font-style:italic;color:var(--g2);}
 
   <div id="result">
     <div style="text-align:right;font-size:10px;color:var(--ink3);opacity:0.6;margin-bottom:6px;" id="data-src"></div>
+    <div id="stock-title-bar" style="margin-bottom:20px;padding:16px 24px;background:linear-gradient(135deg,rgba(212,175,55,0.12),rgba(251,241,199,0.4));border:1px solid rgba(212,175,55,0.4);border-radius:4px;display:flex;align-items:center;gap:16px;">
+      <div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;color:#7B5E1A;letter-spacing:0.06em;" id="title-name"></div>
+        <div style="font-size:11px;color:#6B5530;letter-spacing:0.15em;margin-top:2px;" id="title-sub"></div>
+      </div>
+    </div>
     <div class="sec-head"><span class="sec-title">◆ 종목 개요</span><div class="sec-rule"></div></div>
     <div class="stock-hdr">
       <div class="s-name" id="s-name"></div>
@@ -410,7 +416,10 @@ async function liveSearchYahoo(q){
 function renderAC(results){
   if(!results.length)return;
   const ac=document.getElementById('autocomplete');
-  ac.innerHTML=results.map(s=>`<div class="ac-item" onclick="selectAC('${s.name.replace(/'/g,"\'")}',' ${s.code}')"><span class="ac-name">${s.name}</span><span class="ac-code">${s.code}</span></div>`).join('');
+  ac.innerHTML=results.map(s=>{
+    const safeName=s.name.replace(/'/g,"\'");
+    return `<div class="ac-item" onclick="selectAC('${safeName}','${s.code}')"><span class="ac-name">${s.name}</span><span class="ac-code">${s.code}</span></div>`;
+  }).join('');
   ac.style.display='block';
 }
 
@@ -539,7 +548,10 @@ async function analyzeStock(){
     const qf=qr.financialData||{};
     const qa=qr.assetProfile||{};
 
-    document.getElementById('s-name').textContent=qp.longName||qp.shortName||ticker;
+    const stockDisplayName=qp.longName||qp.shortName||ticker;
+    document.getElementById('s-name').textContent=stockDisplayName;
+    document.getElementById('title-name').textContent=stockDisplayName;
+    document.getElementById('title-sub').textContent=ticker+' · '+(meta.exchangeName||'')+(qa.sector?' · '+qa.sector:'');
     document.getElementById('s-ticker').textContent=`${ticker} · ${meta.exchangeName||''} · ${meta.currency||''} · ${qa.sector||qa.industry||''}`;
     document.getElementById('s-time').textContent='기준: '+new Date().toLocaleString('ko-KR')+'  (Yahoo Finance · 최대 20분 지연)';
     document.getElementById('data-src').textContent='데이터 출처: Yahoo Finance';
@@ -589,46 +601,84 @@ async function analyzeStock(){
 }
 
 async function genAI(ticker,isKRW,curr,chgPct,rsi,macd,macdSig,ma5,ma20,ma60,bbUp,bbLow,support,resistance,stoch,meta,qd,qk,qf,qa,pf,prevClose,lastHi,lastLo){
-  const prompt=`당신은 최고의 주식 애널리스트입니다. ${ticker} 실제 데이터 분석:
-현재가:${pf(curr)} 등락:${chgPct>=0?'+':''}${chgPct.toFixed(2)}% 전일:${pf(prevClose)} 고:${pf(lastHi)} 저:${pf(lastLo)}
-52주고:${pf(meta.fiftyTwoWeekHigh)} 52주저:${pf(meta.fiftyTwoWeekLow)}
-RSI:${rsi.toFixed(1)} MACD:${macd.toFixed(2)} Signal:${macdSig.toFixed(2)}
-MA5:${pf(ma5)} MA20:${pf(ma20)} MA60:${pf(ma60)}
-BB상단:${pf(bbUp)} BB하단:${pf(bbLow)} 스토캐스틱:${stoch.toFixed(1)}
-지지:${pf(support)} 저항:${pf(resistance)}
-PER:${qd.trailingPE?.raw?.toFixed(1)||'N/A'} 배당:${qd.dividendYield?.raw?(qd.dividendYield.raw*100).toFixed(2)+'%':'N/A'}
-베타:${qd.beta?.raw?.toFixed(2)||'N/A'} 업종:${qa.sector||'N/A'}
+  const companyName=document.getElementById('s-name').textContent||ticker;
+  const sector=qa.sector||'';
+  const industry=qa.industry||'';
+  const pe=qd.trailingPE?.raw?.toFixed(1)||'N/A';
+  const divY=qd.dividendYield?.raw?(qd.dividendYield.raw*100).toFixed(2)+'%':'N/A';
+  const beta=qd.beta?.raw?.toFixed(2)||'N/A';
+  const eps=qk.trailingEps?.raw?pf(qk.trailingEps.raw):'N/A';
+  const dist52high=((curr/meta.fiftyTwoWeekHigh-1)*100).toFixed(1);
+  const dist52low=((curr/meta.fiftyTwoWeekLow-1)*100).toFixed(1);
+  const bbPos=Math.round((curr-bbLow)/(bbUp-bbLow)*100);
+  const macdDir=macd>macdSig?'골든크로스(상승)':'데드크로스(하락)';
+  const maLabel=ma5>ma20?'MA5>MA20(단기상승)':'MA5<MA20(단기하락)';
+  const trend60=curr>ma60?'60일선 위(중기상승)':'60일선 아래(중기하락)';
+
+  const prompt=`당신은 월스트리트 출신 최고 주식 애널리스트입니다. 아래 실제 데이터로 ${ticker}(${companyName}) 상세 투자 분석 보고서를 작성하세요.
+
+━━━ 실제 시장 데이터 ━━━
+종목: ${ticker} | 업종: ${sector} | 산업: ${industry}
+현재가: ${pf(curr)} | 등락: ${chgPct>=0?'+':''}${chgPct.toFixed(2)}%
+전일종가: ${pf(prevClose)} | 당일고가: ${pf(lastHi)} | 당일저가: ${pf(lastLo)}
+52주고가: ${pf(meta.fiftyTwoWeekHigh)}(현재비 ${dist52high}%) | 52주저가: ${pf(meta.fiftyTwoWeekLow)}(현재비 +${dist52low}%)
+
+━━━ 기술적 지표 ━━━
+RSI(14): ${rsi.toFixed(1)} → ${rsi>70?'과매수 경고':rsi<30?'과매도 반등신호':rsi<45?'약세구간':'중립~강세'}
+MACD: ${macd.toFixed(2)} / Signal: ${macdSig.toFixed(2)} → ${macdDir}
+이동평균: ${maLabel} | ${trend60}
+볼린저밴드: 하단 ${pf(bbLow)} / 상단 ${pf(bbUp)} → 현재 ${bbPos}% 위치
+스토캐스틱: ${stoch.toFixed(1)} → ${stoch>80?'과매수':stoch<20?'과매도':'중립'}
+지지선: ${pf(support)} | 저항선: ${pf(resistance)}
+
+━━━ 밸류에이션 ━━━
+PER(TTM): ${pe} | EPS: ${eps} | 배당수익률: ${divY} | 베타: ${beta}
+
+━━━ 작성 지침 ━━━
+[technicalAnalysis] 300자 이상: RSI/MACD/이평선/볼린저밴드/스토캐스틱 각각 해석하고 종합 판단. 구체적 수치 반드시 언급.
+[fundamentalAnalysis] 250자 이상: PER/EPS/배당/베타 해석, 52주 위치, 업종 내 가치 평가.
+[marketContext] 400자 이상 (매우 중요): ①${sector||'해당'} 업종 글로벌 트렌드 ②미국 금리/달러/글로벌 경기 영향 ③국내 수급(기관/외국인/개인) 동향 ④주요 리스크 요인 최소 3가지 구체적 서술 ⑤향후 주가 방향에 영향 줄 핵심 변수.
+[verdict] RSI=${rsi.toFixed(1)}, MACD=${macdDir}, 추세=${maLabel}. 이 데이터를 보면 ${rsi<38?'과매도 구간이므로 매수 검토 가능':rsi>65?'과매수 구간이므로 매도/관망 고려':macd>macdSig&&ma5>ma20?'상승 신호 복수 포착으로 매수 유리':macd<macdSig&&ma5<ma20?'하락 신호 복수 포착으로 매도/관망':'중립'}. 관망에만 치우치지 말고 데이터 기반으로 매수/매도/관망 중 하나를 명확히 결정.
+[entryPrice] 지지선(${pf(support)}) 기반 현실적 진입가
+[targetPrice] 저항선(${pf(resistance)}) 기반 목표가
+[stopLoss] 지지선 하방 손절가
+[verdictReason] 300자 이상: "왜 지금 ${rsi<38?'매수':'rsi>65?매도':'이 포지션'}인가" 투자자 관점에서 수치 근거와 함께 상세 설명. 진입 타이밍, 목표가 근거, 리스크 관리 방법 포함.
+[news] 해당 종목/업종의 2025~2026년 실제 있을 법한 구체적 이슈 4개.
 
 JSON만 응답:
-{"technicalAnalysis":"기술적분석200자이상","fundamentalAnalysis":"펀더멘털200자이상","marketContext":"시장환경200자이상","news":[{"title":"이슈1","sentiment":"pos/neg/neu","impact":"호재/악재/중립","date":"최근"},{"title":"이슈2","sentiment":"pos/neg/neu","impact":"호재/악재/중립","date":"최근"},{"title":"이슈3","sentiment":"pos/neg/neu","impact":"호재/악재/중립","date":"최근"}],"verdict":"매수/매도/관망","entryPrice":숫자,"targetPrice":숫자,"stopLoss":숫자,"riskLevel":숫자,"verdictReason":"판단근거250자이상"}`;
+{"technicalAnalysis":"300자이상구체적수치포함","fundamentalAnalysis":"250자이상","marketContext":"400자이상업종+거시+수급+리스크","news":[{"title":"구체적이슈1","sentiment":"pos/neg/neu","impact":"호재/악재/중립","date":"2026"},{"title":"구체적이슈2","sentiment":"pos/neg/neu","impact":"호재/악재/중립","date":"2026"},{"title":"구체적이슈3","sentiment":"pos/neg/neu","impact":"호재/악재/중립","date":"2026"},{"title":"구체적이슈4","sentiment":"pos/neg/neu","impact":"호재/악재/중립","date":"2026"}],"verdict":"매수또는매도또는관망","entryPrice":숫자,"targetPrice":숫자,"stopLoss":숫자,"riskLevel":1~100숫자,"verdictReason":"300자이상수치포함상세근거"}`;
 
   setStep(4);
   try{
     const r=await fetch('https://api.anthropic.com/v1/messages',{
       method:'POST',
       headers:{'Content-Type':'application/json','x-api-key':AKEY,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
-      body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:2000,messages:[{role:'user',content:prompt}]})
+      body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:3000,messages:[{role:'user',content:prompt}]})
     });
-    if(!r.ok)throw new Error('AI 오류');
+    if(!r.ok)throw new Error('AI오류 '+r.status);
     const data=await r.json();
     const parsed=JSON.parse(data.content[0].text.trim().replace(/```json|```/g,'').trim());
     analysisResult=parsed;
     renderResult(parsed,stockData.isKRW,stockData.curr,stockData.pf);
   }catch(e){
-    const verdict=rsi<35&&macd>macdSig?'매수':rsi>65&&macd<macdSig?'매도':'관망';
+    const v=rsi<38&&macd>macdSig?'매수':rsi>62&&macd<macdSig?'매도':chgPct>2&&ma5>ma20?'매수':chgPct<-2&&ma5<ma20?'매도':'관망';
     const fb={
-      technicalAnalysis:`RSI ${rsi.toFixed(1)}(${rsi>70?'과매수':rsi<30?'과매도':'중립'}), MACD ${macd>macdSig?'골든크로스':'데드크로스'}, MA5가 MA20 ${ma5>ma20?'상위(상승)':'하위(하락)'}. BB ${Math.round((curr-bbLow)/(bbUp-bbLow)*100)}% 위치. 지지선 ${stockData.pf(support)}, 저항선 ${stockData.pf(resistance)}.`,
-      fundamentalAnalysis:`현재가 ${stockData.pf(curr)}, 52주 고가 대비 ${((curr/meta.fiftyTwoWeekHigh-1)*100).toFixed(1)}% 수준.`,
-      marketContext:`거시경제 환경과 업종 내 경쟁 구도를 함께 모니터링하세요.`,
-      news:[{title:`${ticker} 최근 ${chgPct>=0?'강세':'약세'}`,sentiment:chgPct>=0?'pos':'neg',impact:chgPct>=0?'호재':'악재',date:'최근'},{title:'글로벌 금리 환경 변화',sentiment:'neu',impact:'중립',date:'최근'},{title:'기관·외국인 수급 동향',sentiment:'neu',impact:'중립',date:'최근'}],
-      verdict,entryPrice:support*1.01,targetPrice:resistance*1.05,stopLoss:support*0.97,
-      riskLevel:rsi>65?72:rsi<35?38:55,
-      verdictReason:`RSI ${rsi.toFixed(1)}, MACD ${macd>macdSig?'골든크로스':'데드크로스'} 기반 ${verdict} 판단.`
+      technicalAnalysis:`RSI ${rsi.toFixed(1)}(${rsi>70?'과매수':rsi<30?'과매도':rsi<45?'약세':'중립'}), MACD ${macdDir}, ${maLabel}, ${trend60}. 볼린저밴드 ${bbPos}%(${bbPos>80?'상단과열':bbPos<20?'하단반등가능':'중간'}), 스토캐스틱 ${stoch.toFixed(1)}. 지지선 ${pf(support)}, 저항선 ${pf(resistance)}.`,
+      fundamentalAnalysis:`현재가 ${pf(curr)}, 52주고가 대비 ${dist52high}%, 저가 대비 +${dist52low}%. PER ${pe}, EPS ${eps}, 배당 ${divY}, 베타 ${beta}.`,
+      marketContext:`${sector||ticker} 업종은 현재 글로벌 금리 환경 변화와 국내 경기 흐름의 영향을 받고 있습니다. 미 연준의 금리 정책 방향이 성장주 밸류에이션에 직접 영향을 주며, 원달러 환율 변동이 수출 기업 실적에 영향을 미칩니다. 기관 및 외국인 수급 동향을 모니터링해야 하며, 주요 리스크로는 ①글로벌 경기 둔화 ②원자재/에너지 가격 변동 ③업종 내 경쟁 심화가 있습니다. 향후 분기 실적 발표와 업종 내 수주 동향이 핵심 변수입니다.`,
+      news:[{title:`${ticker} ${chgPct>=0?'강세':'약세'} 지속, 기관 수급 주목`,sentiment:chgPct>=0?'pos':'neg',impact:chgPct>=0?'호재':'악재',date:'2026'},{title:'미 연준 금리 인하 기대감 반영',sentiment:'pos',impact:'호재',date:'2026'},{title:`${sector||'업종'} 글로벌 수요 회복 전망`,sentiment:'pos',impact:'호재',date:'2026'},{title:'원달러 환율 변동성 확대 우려',sentiment:'neg',impact:'악재',date:'2026'}],
+      verdict:v,
+      entryPrice:v==='매수'?support*1.005:curr,
+      targetPrice:v==='매도'?support*0.94:resistance*1.07,
+      stopLoss:v==='매수'?support*0.965:curr*1.04,
+      riskLevel:rsi>65?70:rsi<35?35:52,
+      verdictReason:`${ticker} ${v} 판단 근거: RSI ${rsi.toFixed(1)}(${rsi>70?'과매수':rsi<30?'과매도':'중립'}), MACD ${macdDir}, ${maLabel}. 현재가 ${pf(curr)} 기준 ${v==='매수'?`지지선 ${pf(support)} 부근 진입, 목표가 ${pf(resistance*1.07)}, 손절 ${pf(support*0.965)}`:v==='매도'?`저항선 ${pf(resistance)} 근접 매도, 재진입가 ${pf(support*0.94)} 대기`:`RSI/MACD 신호 혼재로 추가 확인 후 진입 권장`}.`
     };
     analysisResult=fb;
     renderResult(fb,stockData.isKRW,stockData.curr,stockData.pf);
   }
 }
+
 
 function renderResult(d,isKRW,curr,pf){
   document.getElementById('ana-card').innerHTML=`
