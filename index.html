@@ -427,32 +427,48 @@ function renderAC(results){
 function onSearchInput(val){
   const ac=document.getElementById('autocomplete');
   if(!val||val.trim().length<1){ac.style.display='none';return;}
-  if(/^[A-Za-z0-9]+$/.test(val.trim())){ac.style.display='none';return;}
+  // 영문+숫자만이면 자동완성 숨김 (티커 직접 입력)
+  if(/^[A-Za-z0-9.]+$/.test(val.trim())){ac.style.display='none';return;}
+  // 먼저 로컬 DB에서 즉시 표시
   const local=searchKR(val.trim());
-  if(local.length>0){
-    renderAC(local);
-    clearTimeout(searchTimer);
-    searchTimer=setTimeout(async()=>{
-      const yahoo=await liveSearchYahoo(val.trim());
-      const localCodes=new Set(local.map(s=>s.code));
-      const extra=yahoo.filter(s=>!localCodes.has(s.code)&&(s.code.endsWith('.KS')||s.code.endsWith('.KQ')));
-      if(extra.length)renderAC([...local,...extra].slice(0,8));
-    },800);
-  }else{
+  if(local.length>0) renderAC(local);
+  else{
     ac.innerHTML='<div class="ac-item" style="color:var(--ink3);font-size:12px;">검색 중...</div>';
     ac.style.display='block';
-    clearTimeout(searchTimer);
-    searchTimer=setTimeout(async()=>{
-      const yahoo=await liveSearchYahoo(val.trim());
-      const kr=yahoo.filter(s=>s.code.endsWith('.KS')||s.code.endsWith('.KQ'));
-      if(!kr.length){
-        ac.innerHTML='<div class="ac-item" style="color:var(--ink3);font-size:12px;line-height:1.7;">결과 없음 — 종목코드로 직접 입력해보세요<br><span style="font-size:10px;">예: 032820.KQ (우리기술)</span></div>';
+  }
+  // 네이버 증권 자동완성 API 실시간 검색 (전 종목 커버)
+  clearTimeout(searchTimer);
+  searchTimer=setTimeout(async()=>{
+    try{
+      const q=encodeURIComponent(val.trim());
+      const url=`https://ac.stock.naver.com/ac?q=${q}&target=stock,index,marketindicator`;
+      const r=await fetch(url);
+      const data=await r.json();
+      const items=data.items||[];
+      if(!items.length){
+        if(!local.length){
+          ac.innerHTML='<div class="ac-item" style="color:var(--ink3);font-size:12px;line-height:1.7;">결과 없음<br><span style="font-size:10px;">종목코드 직접 입력 예: 293480.KQ</span></div>';
+        }
         return;
       }
-      renderAC(kr);
-    },600);
-  }
+      // items: [[코드, 이름, 시장, 영문명], ...]
+      const results=items.map(item=>{
+        const code=item[0];
+        const name=item[1];
+        const market=item[2]||'';
+        const suffix=market==='KOSDAQ'||market==='KONEX'?'.KQ':'.KS';
+        return {name, code: code+suffix};
+      }).filter(s=>s.code.includes('.KS')||s.code.includes('.KQ')).slice(0,8);
+      if(results.length>0) renderAC(results);
+    }catch(e){
+      // 네이버 실패 시 로컬 결과 유지
+      if(!local.length){
+        ac.innerHTML='<div class="ac-item" style="color:var(--ink3);font-size:12px;">검색 실패 — 종목코드로 입력해보세요</div>';
+      }
+    }
+  },350);
 }
+
 
 let acIdx=-1;
 function onSearchKey(e){
