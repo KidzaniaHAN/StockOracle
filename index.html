@@ -8,7 +8,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-:root{--g1:#7B5E1A;--g2:#B8860B;--g3:#D4AF37;--g4:#F4D97A;--ink:#1A1208;--ink2:#3D2E0F;--ink3:#6B5530;--bd-gold:rgba(180,134,11,0.28);--bd-bright:rgba(212,175,55,0.50);--buy:#1A5C2A;--sell:#8B1A1A;}
+:root{--g1:#7B5E1A;--g2:#B8860B;--g3:#D4AF37;--g4:#F4D97A;--ink:#1A1208;--ink2:#3D2E0F;--ink3:#6B5530;--bd-gold:rgba(180,134,11,0.28);--bd-bright:rgba(212,175,55,0.50);--buy:#1A5C2A;--sell:#8B1A1A;--num-font:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif;}
 html{scroll-behavior:smooth;}
 body{background:#FDF8ED;font-family:'Noto Serif KR',serif;color:var(--ink);min-height:100vh;position:relative;}
 body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(ellipse at 20% 20%,rgba(212,175,55,0.10) 0%,transparent 50%),radial-gradient(ellipse at 80% 80%,rgba(212,175,55,0.08) 0%,transparent 50%);pointer-events:none;z-index:0;}
@@ -87,7 +87,7 @@ h1 em{font-style:italic;color:var(--g2);}
 .s-time{font-size:10px;color:rgba(212,175,55,0.45);margin-bottom:14px;}
 .s-metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
 .m-label{font-size:9px;letter-spacing:0.18em;color:rgba(212,175,55,0.55);text-transform:uppercase;margin-bottom:3px;}
-.m-val{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:400;color:var(--g4);}
+.m-val{font-family:'Noto Serif KR',sans-serif;font-size:18px;font-weight:600;color:var(--g4);}
 .m-val.pos{color:#7EC88A;}.m-val.neg{color:#E08080;}
 
 .chart-card{background:rgba(253,248,237,0.7);border:1px solid var(--bd-gold);border-radius:4px;padding:20px;margin-bottom:18px;}
@@ -102,13 +102,13 @@ h1 em{font-style:italic;color:var(--g2);}
 .stat-row{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid rgba(180,134,11,0.08);}
 .stat-row:last-child{border-bottom:none;}
 .stat-key{font-size:12px;color:var(--ink3);}
-.stat-val{font-size:12px;font-weight:500;color:var(--ink2);}
+.stat-val{font-size:13px;font-weight:600;color:var(--ink2);letter-spacing:0;}
 .stat-val.pos{color:var(--buy);}.stat-val.neg{color:var(--sell);}
 
 .ind-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px;}
 .ind-card{background:rgba(253,248,237,0.7);border:1px solid var(--bd-gold);border-radius:4px;padding:14px 16px;}
 .i-name{font-size:9px;letter-spacing:0.2em;color:var(--ink3);text-transform:uppercase;margin-bottom:6px;}
-.i-val{font-family:'Cormorant Garamond',serif;font-size:24px;color:var(--ink);margin-bottom:3px;}
+.i-val{font-family:'Noto Serif KR',sans-serif;font-size:20px;font-weight:600;color:var(--ink);margin-bottom:3px;}
 .i-sig{font-size:9px;padding:2px 8px;border-radius:2px;display:inline-block;font-weight:500;}
 .sig-buy{background:rgba(26,92,42,0.12);color:var(--buy);border:1px solid rgba(26,92,42,0.25);}
 .sig-sell{background:rgba(139,26,26,0.10);color:var(--sell);border:1px solid rgba(139,26,26,0.20);}
@@ -137,7 +137,7 @@ h1 em{font-style:italic;color:var(--g2);}
 .score-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px;}
 .score-card{background:rgba(253,248,237,0.7);border:1px solid var(--bd-gold);border-radius:4px;padding:14px 16px;text-align:center;}
 .score-label{font-size:10px;letter-spacing:0.15em;color:var(--ink3);text-transform:uppercase;margin-bottom:8px;}
-.score-val{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;margin-bottom:4px;}
+.score-val{font-family:'Noto Serif KR',sans-serif;font-size:26px;font-weight:700;margin-bottom:4px;}
 .score-val.bull{color:var(--buy);}.score-val.bear{color:var(--sell);}.score-val.neu{color:var(--g2);}
 .score-desc{font-size:10px;color:var(--ink3);}
 
@@ -147,14 +147,14 @@ h1 em{font-style:italic;color:var(--g2);}
 .verdict::before{content:'';position:absolute;inset:6px;border:1px solid rgba(212,175,55,0.12);border-radius:3px;pointer-events:none;}
 .v-badge{display:inline-flex;align-items:center;gap:6px;font-size:9px;letter-spacing:0.25em;color:rgba(212,175,55,0.65);text-transform:uppercase;margin-bottom:14px;}
 .v-badge::before{content:'';width:18px;height:1px;background:rgba(212,175,55,0.4);}
-.v-action{font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:300;color:#7EC88A;margin-bottom:18px;line-height:1;}
+.v-action{font-family:'Noto Serif KR',sans-serif;font-size:32px;font-weight:700;color:#7EC88A;margin-bottom:18px;line-height:1.2;}
 .verdict.bear .v-action{color:#E08080;}
 .verdict.hold .v-action{color:#E0D080;}
 .pt-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:20px;}
 .pt-label{font-size:9px;letter-spacing:0.2em;color:rgba(212,175,55,0.5);text-transform:uppercase;margin-bottom:4px;}
-.pt-val{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:300;}
+.pt-val{font-family:'Noto Serif KR',sans-serif;font-size:20px;font-weight:600;}
 .pt-val.ent{color:#7EC88A;}.pt-val.tgt{color:#B8E0C0;}.pt-val.stp{color:#E08080;}
-.pt-pct{font-size:10px;color:rgba(212,175,55,0.4);margin-top:2px;}
+.pt-pct{font-size:11px;color:rgba(212,175,55,0.55);margin-top:3px;font-weight:500;}
 .v-reason{font-size:12px;line-height:1.95;color:rgba(212,175,55,0.6);border-top:1px solid rgba(212,175,55,0.12);padding-top:14px;}
 .risk-row{margin-top:12px;}
 .risk-lbl{display:flex;justify-content:space-between;font-size:10px;color:rgba(212,175,55,0.4);margin-bottom:4px;}
@@ -197,25 +197,25 @@ h1 em{font-style:italic;color:var(--g2);}
 .divid-card.primary{border-color:rgba(26,92,42,0.4);background:rgba(26,92,42,0.04);}
 .divid-badge{position:absolute;top:-9px;left:12px;font-size:9px;padding:2px 9px;border-radius:10px;letter-spacing:0.08em;font-weight:600;color:var(--ink);}
 .divid-label{font-size:9px;letter-spacing:0.15em;color:var(--ink3);text-transform:uppercase;margin-bottom:5px;}
-.divid-price{font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--ink);margin-bottom:2px;}
-.divid-amount{font-size:13px;color:var(--buy);font-weight:500;}
-.divid-shares{font-size:11px;color:var(--ink3);margin-top:2px;}
+.divid-price{font-family:'Noto Serif KR',sans-serif;font-size:18px;font-weight:600;color:var(--ink);margin-bottom:2px;}
+.divid-amount{font-size:14px;color:var(--buy);font-weight:700;letter-spacing:0;}
+.divid-shares{font-size:12px;color:var(--ink3);margin-top:2px;font-weight:500;}
 
 .summary-table{width:100%;border-collapse:collapse;margin-bottom:20px;font-size:13px;}
 .summary-table th{font-size:10px;letter-spacing:0.15em;color:var(--ink3);text-transform:uppercase;text-align:left;padding:8px 12px;background:rgba(212,175,55,0.08);border-bottom:1px solid var(--bd-gold);}
-.summary-table td{color:var(--ink2);padding:9px 12px;border-bottom:1px solid rgba(180,134,11,0.08);}
+.summary-table td{color:var(--ink2);padding:9px 12px;border-bottom:1px solid rgba(180,134,11,0.08);font-weight:500;letter-spacing:0;}
 .summary-table tr:last-child td{border-bottom:none;}
-.highlight{font-weight:600;color:var(--ink)!important;}
-.pos-val{color:var(--buy)!important;font-weight:600;}
-.neg-val{color:var(--sell)!important;font-weight:600;}
+.highlight{font-weight:700;color:var(--ink)!important;font-family:var(--num-font);letter-spacing:0;}
+.pos-val{color:var(--buy)!important;font-weight:700;font-family:var(--num-font);letter-spacing:0;}
+.neg-val{color:var(--sell)!important;font-weight:700;font-family:var(--num-font);letter-spacing:0;}
 
 .scenario-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;}
 .scenario-card{border-radius:4px;padding:14px 16px;}
 .sc-profit{background:rgba(26,92,42,0.08);border:1px solid rgba(26,92,42,0.25);}
 .sc-loss{background:rgba(139,26,26,0.08);border:1px solid rgba(139,26,26,0.2);}
 .scenario-label{font-size:10px;letter-spacing:0.12em;color:var(--ink3);text-transform:uppercase;margin-bottom:8px;}
-.scenario-val{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:300;}
-.sv-profit{color:var(--buy);}.sv-loss{color:var(--sell);}
+.scenario-val{font-family:'Noto Serif KR',sans-serif;font-size:22px;font-weight:700;}
+.sv-profit{color:var(--buy);font-family:var(--num-font);}.sv-loss{color:var(--sell);font-family:var(--num-font);}
 .scenario-desc{font-size:11px;color:var(--ink3);margin-top:3px;}
 
 .sell-guide{background:rgba(26,92,42,0.06);border:1px solid rgba(26,92,42,0.2);border-radius:4px;padding:16px 18px;margin-bottom:6px;}
